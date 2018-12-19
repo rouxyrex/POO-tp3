@@ -14,6 +14,7 @@
 #include <cstring>
 #include <iostream>
 #include <stdlib.h>
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -324,24 +325,38 @@ using namespace std;
 	
     }
 
+	void Catalogue::SauvCatalogue() 
+	{
+		int ref=0;
+		ofstream thisFile;
+      		thisFile.open ("TrajetsFile.csv");
+		thisFile << "Ref,Nom,Depart,Arrivee,Transport,Type,NBSST\n";
+		for (int i= 0; i < count; i++)
+		{
+			Tab_trajet[i]->SauvTrajet(thisFile, ref);
+			ref++;
+		}
+		thisFile.close();
+	}
+
 
     void Catalogue::test()
     {
 		//cette methode sert de créer quelques trajets automatiquement
 		//afin de rendre les tests plus rapides
-	    const char* Depart1;
+	const char* Depart1;
         char* Depart1tmp = new char [4];
         strcpy(Depart1tmp,"A");
         Depart1=Depart1tmp;
-	    const char* Arriv1;
+	const char* Arriv1;
         char* Arriv1tmp = new char [4];
         strcpy(Arriv1tmp,"B");
         Arriv1=Arriv1tmp;
-	    const char* Trans1;
+	const char* Trans1;
         char* Trans1tmp = new char [4];
         strcpy(Trans1tmp,"MT1");
         Trans1=Trans1tmp;
-	    const char* Nom1;
+	const char* Nom1;
         char* Nom1tmp = new char [4];
         strcpy(Nom1tmp,"TS1");
         Nom1=Nom1tmp;	

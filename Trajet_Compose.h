@@ -37,6 +37,8 @@ public:
 	// cette méthode servira à la recherche de trajets dans Catalogue  
 
     const char* get_Trans(); // renvoie le moyen de transport du trajet
+
+    void SauvTrajet(ofstream &thisFile, int &i) const; 
 	
 
 //-------------------------------------------- Constructeurs - destructeur

@@ -31,10 +31,10 @@ class Trajet
 public:
 //----------------------------------------------------- Méthodes publiques
 
-	
 	const char* get_Depart() const; //renvoie la ville de depart du trajet
 	const char* get_Arrivee() const; //renvoie la ville d'arrivee du trajet
 	const char* get_Nom() const; //renvoie le nom du trajet
+	
 
     virtual const char* get_Trans() const 
 	//renvoyer le moyen de transport du trajet courant
@@ -47,6 +47,11 @@ public:
 
     virtual void Renvoyer(int& nombre, Trajet** Contains) {}; 
     //renvoie un tableu contenant les pointers des tous les trajets simples contenu dans ce trajet. Cette méthode sera appelée dans les classes filles pour la recherche de trajets
+
+    virtual void SauvTrajet(ofstream &thisFile, int &i) const
+	{
+		cout << "appel a Trajet" << endl;
+	}; 
 
 
 

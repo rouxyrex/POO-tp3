@@ -34,6 +34,8 @@ public:
     
 	const char* get_Trans() const; // renvoie le moyen de transport de ce trajet
 
+	void SauvTrajet(ofstream &thisFile, int &i) const; 
+
 //-------------------------------------------- Constructeurs - destructeur
 	Trajet_Simple ( const Trajet_Simple & unTrajet_Simple );
         // Constructeur de copie

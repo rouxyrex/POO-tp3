@@ -12,6 +12,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -39,7 +40,11 @@ using namespace std;
     }
 
 
-
+    void Trajet_Simple::SauvTrajet(ofstream &thisFile, int &i) const
+    {
+	cout << "appel a sauvtrajet-simple" << endl;
+	thisFile << i << "," <<get_Nom()<< "," <<get_Depart()<< "," <<get_Arrivee()<< "," <<get_Trans()<< "," <<"1"<< "," <<"0"<<"\n";
+    } 
 
 //-------------------------------------------- Constructeurs - destructeur
 

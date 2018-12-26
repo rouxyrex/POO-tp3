@@ -11,6 +11,8 @@
 #define TRAJET_COMP_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <fstream>
+using namespace std;
 
 //------------------------------------------------------------- Constantes
 
@@ -37,8 +39,9 @@ public:
 	// cette méthode servira à la recherche de trajets dans Catalogue  
 
     const char* get_Trans(); // renvoie le moyen de transport du trajet
+    
+    void SauvTrajet(ofstream& fic, int& ref) const; //sauvegarde le trajet dans fic à la position ref
 
-    void SauvTrajet(ofstream &thisFile, int &i) const; 
 	
 
 //-------------------------------------------- Constructeurs - destructeur

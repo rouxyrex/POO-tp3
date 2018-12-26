@@ -23,7 +23,6 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-
 	const char* Trajet::get_Depart ( ) const
 	{
 		return Ville_Depart;
@@ -62,7 +61,7 @@ using namespace std;
 	{
 		Ville_Depart=Depart;
 		Ville_Arrivee=Arrivee;
-       		Nom_Trajet = Nom;
+       	Nom_Trajet = Nom;
 
 		#ifdef MAP
 		    cout << "Appel au constructeur de <Trajet>" << endl;
@@ -72,7 +71,6 @@ using namespace std;
 
 	Trajet::~Trajet ( ) 
 	{
-
 		#ifdef MAP
 		    cout << "Appel au destructeur de <Trajet>" << endl;
 		#endif

@@ -12,7 +12,6 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <fstream>
 #include <cstdlib>
 using namespace std;
 
@@ -42,17 +41,16 @@ using namespace std;
         return ret;
     }
 
-    void Trajet_Compose::SauvTrajet(ofstream &thisFile, int &i) const
-    {
-	cout << "appel a sauvtrajet-compose" << endl;
-
-	thisFile << i << "," <<get_Nom()<< "," <<get_Depart()<< "," <<get_Arrivee()<< "," <<0<< "," <<2<< ","<<number<<"\n";
-	for (int j = 0; j < number; j++)
+	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref) const
 	{
-		Tab[j]->SauvTrajet(thisFile,++i);
+		fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
+		++ref;
+		
+		for (int i=0; i < number; ++i)
+		{
+			Tab[i]->SauvTrajet(fic,ref);
+		}
 	}
-    } 
-
 //-------------------------------------------- Constructeurs - destructeur
 	Trajet_Compose::Trajet_Compose (const char* Nom, const char* Ville_Dep, const char* Ville_Arriv, Trajet** trajets, int nums) : Trajet(Nom, Ville_Dep, Ville_Arriv), Tab(trajets), number(nums)
 	{

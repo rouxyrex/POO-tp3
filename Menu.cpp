@@ -39,10 +39,10 @@ static void mainmenu(Catalogue& cat1)
 	cout << "2 - Ajouter un nouveau trajet compose" <<endl;
 	cout << "3 - Recherche de trajets" <<endl;	
     cout << "4 - Recherche de trajets (Avancée)" << endl;
-	cout << "5 - Affichage du catalogue courant" << endl;
-	cout << "6 - Ajout automatique des trajets" << endl;
-	cout << "7 - Sauvegarder le catalogue courant" << endl;
-	cout << "8 - Sortir du catalogue "<< endl;
+	cout << "5 - Affichage du catalogue courrant" << endl;
+	cout << "6 - Ajouter des trajets predetermines au catalogue (Test)" << endl;
+	cout << "7 - Sauvegarder le catalogue courant"<< endl;
+	cout << "8 - Sortir du catalogue"<< endl;
 
 	char instruct ='0';
 	
@@ -115,14 +115,15 @@ static void mainmenu(Catalogue& cat1)
 		if(instruct == '6') // test
 		{
 			test(cat1);
-            		cout<<endl;
+            cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 
-		if(instruct == '7') // sauvegarde
+	    
+	    if(instruct == '7') // test
 		{
 			cat1.SauvCatalogue();
-            		cout<<endl;
+            cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 

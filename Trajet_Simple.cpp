@@ -12,7 +12,6 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <fstream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -39,12 +38,13 @@ using namespace std;
         return Moyen_Trans;
     }
 
+	void Trajet_Simple::SauvTrajet(ofstream& fic, int& ref) const
+	{
+		fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "\n";
+		++ref;
+	}
 
-    void Trajet_Simple::SauvTrajet(ofstream &thisFile, int &i) const
-    {
-	cout << "appel a sauvtrajet-simple" << endl;
-	thisFile << i << "," <<get_Nom()<< "," <<get_Depart()<< "," <<get_Arrivee()<< "," <<get_Trans()<< "," <<"1"<< "," <<"0"<<"\n";
-    } 
+
 
 //-------------------------------------------- Constructeurs - destructeur
 

@@ -13,7 +13,6 @@
 //-------------------------------------------------------- Include système
 #include <cstring>
 #include <iostream>
-#include <fstream>
 #include <stdlib.h>
 using namespace std;
 
@@ -68,9 +67,39 @@ using namespace std;
         
 	    AddTrajet(Traj1);
  	}
+	
+	void Catalogue::AjoutTrajSimp(string token[])
+	{
+        const char* Nom1; // variables dont on se servira afin de stocker les informations requises pour la creation du trajet simple
+        const char* Depart1;
+        const char* Arrivee1;
+        const char* Trans1;
 
-	void Catalogue::AjoutTrajSimp2(Trajet** Tab,int& pos) 
-    	{
+		// variables transitoires dont on se servira afin de stocker les informations
+		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
+        char* Nomtmp = new char [4]; 
+        char* Departtmp = new char [4];
+        char* Arriveetmp = new char [4];
+        char* Transtmp = new char [4];
+
+	    strcpy(Nomtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
+	    strcpy(Departtmp,(token[2]).c_str());
+	    strcpy(Arriveetmp,(token[3]).c_str());
+	    strcpy(Transtmp,(token[4]).c_str());
+
+		Nom1=Nomtmp;        
+		Depart1=Departtmp;
+		Arrivee1=Arriveetmp;
+		Trans1=Transtmp;
+
+	    Trajet* Traj1 ;
+       	Traj1 = new Trajet_Simple( Nom1, Depart1, Arrivee1, Trans1);
+        
+	    AddTrajet(Traj1);
+ 	}
+	
+	void Catalogue::AjoutTrajSimp2(Trajet** Tab,int pos) 
+    {
          
         cout<<"Sous trajet numéro : "<< (pos+1) << endl;
 		const char* Nom1; // variables dont on se servira afin de stocker les informations requises pour la creation du trajet simple
@@ -111,9 +140,38 @@ using namespace std;
 		Traj1 = new Trajet_Simple( Nom1, Depart1, Arrivee1, Trans1);
 		Tab[pos]=Traj1;
 	}
+	
+	void Catalogue::AjoutTrajSimp2(Trajet** Tab,int pos, string token []) 	
+	{	
+		const char* Nom1; // variables dont on se servira afin de stocker les informations requises pour la creation du trajet simple
+        const char* Depart1;
+        const char* Arrivee1;
+        const char* Trans1;
 
+		// variables transitoires dont on se servira afin de stocker les informations
+		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
+        char* Nomtmp = new char [4]; 
+        char* Departtmp = new char [4];
+        char* Arriveetmp = new char [4];
+        char* Transtmp = new char [4];
+
+	    strcpy(Nomtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
+	    strcpy(Departtmp,(token[2]).c_str());
+	    strcpy(Arriveetmp,(token[3]).c_str());
+	    strcpy(Transtmp,(token[4]).c_str());
+
+		Nom1=Nomtmp;        
+		Depart1=Departtmp;
+		Arrivee1=Arriveetmp;
+		Trans1=Transtmp;
+
+	    Trajet* Traj1 ;
+       	Traj1 = new Trajet_Simple( Nom1, Depart1, Arrivee1, Trans1);
+       	Tab[pos]=Traj1;
+	}
+	
 	void Catalogue::AjoutTrajComp()
-    	{
+    {
 		cout << "Veuillez inserer le nom de ce trajet compose s'il vous plait"<< endl;
 		const char* NomC1;
 		char* NomCtmp = new char [4];
@@ -136,9 +194,75 @@ using namespace std;
 		cout << TrajC1 ->get_Depart() << endl << TrajC1 ->get_Arrivee()<<endl;
 		AddTrajet(TrajC1); 
 	}
-
-
-
+	
+	void Catalogue::AjoutTrajComp(string token[],ifstream &fic)
+    {
+		const char* NomC1;
+		char* NomCtmp = new char [4];
+	    strcpy(NomCtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
+		NomC1=NomCtmp;
+            
+		int num_Traj =  atoi(token[5].c_str()); //string -> char * -> int
+			
+		Trajet ** Tab;
+		Tab = (Trajet **) malloc(num_Traj*sizeof(Trajet*)); // allocation memoire correspondant aux nombres de trajets simples que nous aurons a ajouter 
+		
+		string thisString = "";
+		string subtoken [6];
+		
+		for(int i = 0; i < num_Traj ; i++)
+		{	
+			//lire la ligne suivante
+			getline(fic, thisString);
+			ReadLine(thisString,subtoken);
+			if (strcmp((subtoken[5]).c_str(),"0")==0)
+			{
+				cout << "now making simp-2\n" ;
+				AjoutTrajSimp2(Tab,i,subtoken);		
+			} else {
+				AjoutTrajComp(Tab,i,subtoken,fic);	
+				cout << "now making comp-2\n" ;
+			} 		
+		}
+		Trajet* TrajC1;
+		TrajC1 = new Trajet_Compose(NomC1,Tab[0]->get_Depart(),Tab[num_Traj-1]->get_Arrivee(), Tab, num_Traj); // création du trajet composé avec ville de départ et arrivée correspondant à celle du premier et dernier trajet respectivement
+		AddTrajet(TrajC1); 
+	}
+	
+	void Catalogue::AjoutTrajComp(Trajet** Tab,int pos,string token[],ifstream &fic)
+	{
+		const char* NomC1;
+		char* NomCtmp = new char [4];
+	    strcpy(NomCtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
+		NomC1=NomCtmp;
+            
+		int num_Traj =  atoi(token[5].c_str()); //string -> char * -> int
+			
+		Trajet ** SubTab;
+		SubTab = (Trajet **) malloc(num_Traj*sizeof(Trajet*)); // allocation memoire correspondant aux nombres de trajets simples que nous aurons a ajouter 
+		
+		string thisString = "";
+		string subtoken [6];
+		
+		for(int i = 0; i < num_Traj ; i++)
+		{	
+			//lire la ligne suivante
+			getline(fic, thisString);
+			ReadLine(thisString,subtoken);
+			if (strcmp((subtoken[5]).c_str(),"0")==0)
+			{
+				cout << "now making simp-2\n" ;
+				AjoutTrajSimp2(SubTab,i,subtoken);		
+			} else {
+				AjoutTrajComp(SubTab,i,subtoken,fic);	
+				cout << "now making comp-2\n" ;
+			} 		
+		}
+		Trajet* TrajC1;
+		TrajC1 = new Trajet_Compose(NomC1,SubTab[0]->get_Depart(),SubTab[num_Traj-1]->get_Arrivee(), SubTab, num_Traj); // création du trajet composé avec ville de départ et arrivée correspondant à celle du premier et dernier trajet respectivement
+		Tab[pos]=TrajC1;
+	}
+	
 	void Catalogue::Afficher()
 	{
         for (int i=0; i < count; i++)
@@ -196,8 +320,8 @@ using namespace std;
 
 	}
 
-
-	bool Catalogue:: Deja_ajoute(Trajet ** tableau, int taille, Trajet * traj){
+	bool Catalogue::Deja_ajoute(Trajet ** tableau, int taille, Trajet * traj)
+	{
 		for(int i = 0; i< taille +1; i++)
 		{
 			if(tableau[i]== traj)
@@ -207,7 +331,6 @@ using namespace std;
 		}
 		return false;
 	}
-
 
     void Catalogue::Rechercher2(const char* a, const char* b)
 	{
@@ -227,104 +350,6 @@ using namespace std;
 		}
         cout<<num_results<<" parcours possibles"<<endl;		
 	}
-
-    void Catalogue::cherche(int i,const char* a, const char* b)
-    {
-
-		int size = 1; // current num of permutations
-		//bool alreadythere = false; // variable utilise pour verifier si l'on est deja a destination
-		bool no_more_traj = false; // variable utilise pour savoir si on a ajoute aucun nouveau resultat
-		int numelems =1; // corresponds au nombre d'elements dans une combinaison
-		Trajet *** tab; // declaration du tableau contenant toutes les combinaisons possible
-		tab =(Trajet***)malloc(100 *sizeof(Trajet**)); // creation du tableau pour les combinaisons, on tentera avec un realloc apres
-		int length[100]; // tableau qui garde la taille de chaque combinaison
-		for(int h =0; h < 100 ; h++)
-		{	
-			tab[h] = (Trajet**)malloc(count * sizeof(Trajet*));
-		}
-		tab[0][0] = Tab_trajet[i]; // premier element de la premiere combinaison egal a la ville qu'on a trouve dont 
-
-		int duplicate =0;  // variable utilise pour savoir si pour un trajet, il ya deux ou plus trajets qui peuvent etre des suites valable
-		int count1=0; // sera l'index pour la combinaison courante						
-		
-		while(count1<size)
-		{// tant qu'on a pas atteint la taille actuelle du tableau 
-			for(int pos=(numelems - 1); pos< count; pos++) // on commence a partir de la position du dernier element ajoute
-			{
-				if (!no_more_traj)
-				{
-					
-				    if((strcmp(tab[count1][pos]->get_Arrivee(),b)!=0))
-					{
-					    for(int j =0; j<count; j++)
-					    {
-			                //cout << "count1 is " << count1 << " of 100 pos is " << pos << " out of "<< count<< endl;
-												
-
-	
-							    if(duplicate==1 && strcmp(tab[count1][pos]->get_Arrivee(),Tab_trajet[j]->get_Depart())==0 && !Deja_ajoute(tab[count1], pos, Tab_trajet[j]))
-							    {
-								
-								    size++;
-								    for(int t =0; t< pos + 1; t++) // duplique la combinaison dans une autre colonne
-								    {
-									    tab[size -1][t] = tab[count1][t];// copie du tableau, element par element
-								    }
-								    tab[size- 1][pos+1] = Tab_trajet[j];
-								    length[size-1] = numelems;
-							    }
-
-							    else if(strcmp(tab[count1][pos]->get_Arrivee(),Tab_trajet[j]->get_Depart())==0 && !Deja_ajoute(tab[count1], pos, Tab_trajet[j]))
-							    {
-
-								    numelems++;
-								    length[count1] = numelems;
-								    tab[count1][pos+1] = Tab_trajet[j];
-								    duplicate =1;
-							    }
-						
-
-						        if(duplicate ==0 && j == count -1) // si aucun nouvel element a pu etre rajoute a la combinaison
-						        {
-							        no_more_traj = true; // plus possible de rajouter des trajets, on passe a la prochaine combinaison/colonne
-							        break;	
-						        }
-						
-					    }
-					    //passe a la prochaine position dans la colonne/combinaison
-					    duplicate =0; //remise de duplicate a 0
-
-						} else
-						{
-							//affichage solution
-							for(int p = 0; p< numelems-1; p++)
-							{
-								cout <<  tab[count1][p]->get_Nom() << " + ";
-							}
-							cout<< tab[count1][numelems-1]->get_Nom()<<endl;
-							num_results++;
-							break;
-						}
-					}
-							
-				}
-				
-			    //passer a la prochaine colonne
-			    numelems = length[count1 +1]; //affecter a numelems la valeur du nombre d'element de la prochaine colonne
-			    no_more_traj = false;
-			    //alreadythere = false;
-			    count1++;								
-
-		}
-	    for (i=0; i<100;++i)
-		{
-			free(tab[i]);
-		}
-
-		free(tab);
-	
-    }
-
 
     void Catalogue::test()
     {
@@ -472,7 +497,8 @@ using namespace std;
 
     }
 
-	bool Catalogue::SauvCatalogue() {
+	bool Catalogue::SauvCatalogue() 
+	{
 		ofstream fic;
 		fic.open("TrajetsFile.csv");
 
@@ -485,6 +511,42 @@ using namespace std;
 		}
 
 		fic.close();
+		return 1;
+	}
+	
+	bool Catalogue::RecupCatalogue()
+	{	
+		//variables pour stocker les attributs du trajet
+		string thisString = "";
+		string token [6];
+		
+		
+		ifstream fic;
+		fic.open("TrajetsFile.csv");
+		
+		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
+		{
+			cout << "Fichier vide/non-existant\n";
+			fic.close();
+			return 0;
+		}
+		
+		while (getline(fic, thisString))
+		{
+			ReadLine(thisString,token);
+			if (strcmp((token[5]).c_str(),"0")==0)
+			{
+				cout << "now making simp\n" ;
+				AjoutTrajSimp(token);			
+			} else {
+				cout << "now making comp\n" ;
+				AjoutTrajComp(token,fic);	
+			} 
+
+		}
+		cout << "Catalogue récupéré\n";
+		fic.close();
+		return 1;
 	}
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -499,7 +561,6 @@ using namespace std;
 	    #endif
 	} //----- Fin de Catalogue
 
-
 	Catalogue::~Catalogue ( )
 	{
         for (int i=0; i<count;i++)
@@ -512,7 +573,6 @@ using namespace std;
 	        cout << "Appel au destructeur de <Catalogue>" << endl;
 	    #endif
 	} //----- Fin de ~Catalogue
-
 
 //------------------------------------------------------------------ PRIVE
 
@@ -528,4 +588,113 @@ using namespace std;
 		Tab_trajet[count] = A;
 		count++;
 	}
+	
+	void Catalogue::ReadLine(string thisString, string token [])
+	{
+		string delimiter = ",";
+		size_t pos = 0;
+		for (int i=0; i<6; ++i)
+		{
+			pos = thisString.find(delimiter);
+			token[i] = thisString.substr(0, pos);
+			thisString.erase(0, pos + delimiter.length());
+		}
+	}
+    
+    void Catalogue::cherche(int i,const char* a, const char* b)
+    {
+
+		int size = 1; // current num of permutations
+		//bool alreadythere = false; // variable utilise pour verifier si l'on est deja a destination
+		bool no_more_traj = false; // variable utilise pour savoir si on a ajoute aucun nouveau resultat
+		int numelems =1; // corresponds au nombre d'elements dans une combinaison
+		Trajet *** tab; // declaration du tableau contenant toutes les combinaisons possible
+		tab =(Trajet***)malloc(100 *sizeof(Trajet**)); // creation du tableau pour les combinaisons, on tentera avec un realloc apres
+		int length[100]; // tableau qui garde la taille de chaque combinaison
+		for(int h =0; h < 100 ; h++)
+		{	
+			tab[h] = (Trajet**)malloc(count * sizeof(Trajet*));
+		}
+		tab[0][0] = Tab_trajet[i]; // premier element de la premiere combinaison egal a la ville qu'on a trouve dont 
+
+		int duplicate =0;  // variable utilise pour savoir si pour un trajet, il ya deux ou plus trajets qui peuvent etre des suites valable
+		int count1=0; // sera l'index pour la combinaison courante						
+		
+		while(count1<size)
+		{// tant qu'on a pas atteint la taille actuelle du tableau 
+			for(int pos=(numelems - 1); pos< count; pos++) // on commence a partir de la position du dernier element ajoute
+			{
+				if (!no_more_traj)
+				{
+					
+				    if((strcmp(tab[count1][pos]->get_Arrivee(),b)!=0))
+					{
+					    for(int j =0; j<count; j++)
+					    {
+			                //cout << "count1 is " << count1 << " of 100 pos is " << pos << " out of "<< count<< endl;
+												
+
+	
+							    if(duplicate==1 && strcmp(tab[count1][pos]->get_Arrivee(),Tab_trajet[j]->get_Depart())==0 && !Deja_ajoute(tab[count1], pos, Tab_trajet[j]))
+							    {
+								
+								    size++;
+								    for(int t =0; t< pos + 1; t++) // duplique la combinaison dans une autre colonne
+								    {
+									    tab[size -1][t] = tab[count1][t];// copie du tableau, element par element
+								    }
+								    tab[size- 1][pos+1] = Tab_trajet[j];
+								    length[size-1] = numelems;
+							    }
+
+							    else if(strcmp(tab[count1][pos]->get_Arrivee(),Tab_trajet[j]->get_Depart())==0 && !Deja_ajoute(tab[count1], pos, Tab_trajet[j]))
+							    {
+
+								    numelems++;
+								    length[count1] = numelems;
+								    tab[count1][pos+1] = Tab_trajet[j];
+								    duplicate =1;
+							    }
+						
+
+						        if(duplicate ==0 && j == count -1) // si aucun nouvel element a pu etre rajoute a la combinaison
+						        {
+							        no_more_traj = true; // plus possible de rajouter des trajets, on passe a la prochaine combinaison/colonne
+							        break;	
+						        }
+						
+					    }
+					    //passe a la prochaine position dans la colonne/combinaison
+					    duplicate =0; //remise de duplicate a 0
+
+						} else
+						{
+							//affichage solution
+							for(int p = 0; p< numelems-1; p++)
+							{
+								cout <<  tab[count1][p]->get_Nom() << " + ";
+							}
+							cout<< tab[count1][numelems-1]->get_Nom()<<endl;
+							num_results++;
+							break;
+						}
+					}
+							
+				}
+				
+			    //passer a la prochaine colonne
+			    numelems = length[count1 +1]; //affecter a numelems la valeur du nombre d'element de la prochaine colonne
+			    no_more_traj = false;
+			    //alreadythere = false;
+			    count1++;								
+
+		}
+	    for (i=0; i<100;++i)
+		{
+			free(tab[i]);
+		}
+
+		free(tab);
+	
+    }
 

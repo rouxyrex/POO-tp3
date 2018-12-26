@@ -42,13 +42,14 @@ static void mainmenu(Catalogue& cat1)
 	cout << "5 - Affichage du catalogue courrant" << endl;
 	cout << "6 - Ajouter des trajets predetermines au catalogue (Test)" << endl;
 	cout << "7 - Sauvegarder le catalogue courant"<< endl;
-	cout << "8 - Sortir du catalogue"<< endl;
+	cout << "8 - Récupérer les trajets sauvegardé dans un fichier"<< endl;
+	cout << "9 - Sortir du catalogue"<< endl;
 
 	char instruct ='0';
 	
 	cin >>instruct;
 
-	while(instruct!= '8')
+	while(instruct!= '9')
 	{
 		
 		if(instruct == '1') // ajout d'un nouveau trajet simple au catalogue
@@ -120,9 +121,16 @@ static void mainmenu(Catalogue& cat1)
 		}
 
 	    
-	    if(instruct == '7') // test
+	    if(instruct == '7')
 		{
 			cat1.SauvCatalogue();
+            cout<<endl;
+			cout << "Inserez une nouvelle commande" <<endl;
+		}
+		
+		if(instruct == '8')
+		{
+			cat1.RecupCatalogue();
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}

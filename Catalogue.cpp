@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 #include <cstring>
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 using namespace std;
 
@@ -471,6 +472,20 @@ using namespace std;
 
     }
 
+	bool Catalogue::SauvCatalogue() {
+		ofstream fic;
+		fic.open("TrajetsFile.csv");
+
+		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
+		
+		int ref = 0; //compteur pour le nombre de trajets enregistré
+		for (int i =0; i < count; ++i)
+		{
+			Tab_trajet[i]->SauvTrajet(fic, ref);
+		}
+
+		fic.close();
+	}
 
 //-------------------------------------------- Constructeurs - destructeur
 	Catalogue::Catalogue () 

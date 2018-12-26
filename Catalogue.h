@@ -50,12 +50,12 @@ public:
 
 	void Afficher();
         //Afficher tous les trajets contenus dans ce catalogue
-	Bool RecupTrajets();
+	bool RecupCatalogue();
 	//Recupérer des trajets à partir d'un fichier
-	Bool SauvTrajets();
+	bool SauvCatalogue();
 	//Sauvegarder les trajets courants dans un fichier
-    	void test();
-        //Une methode pour ajouter quelques trajets automatiquement au catalogue afin de rendre les tests plus facile
+    void test();
+    //Une methode pour ajouter quelques trajets automatiquement au catalogue afin de rendre les tests plus facile
 
 //-------------------------------------------- Constructeurs - destructeur
 	Catalogue ();

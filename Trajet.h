@@ -11,6 +11,8 @@
 #define TRAJET_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <fstream>
+using namespace std;
 
 //------------------------------------------------------------- Constantes
 
@@ -35,6 +37,9 @@ public:
 	const char* get_Depart() const; //renvoie la ville de depart du trajet
 	const char* get_Arrivee() const; //renvoie la ville d'arrivee du trajet
 	const char* get_Nom() const; //renvoie le nom du trajet
+	virtual void SauvTrajet(ofstream& fic, int& ref) const //sauvegarde le trajet dans fic à la position ref
+	{
+	}
 
     virtual const char* get_Trans() const 
 	//renvoyer le moyen de transport du trajet courant
@@ -47,8 +52,7 @@ public:
 
     virtual void Renvoyer(int& nombre, Trajet** Contains) {}; 
     //renvoie un tableu contenant les pointers des tous les trajets simples contenu dans ce trajet. Cette méthode sera appelée dans les classes filles pour la recherche de trajets
-
-
+	
 
 //-------------------------------------------- Constructeurs - destructeur
     
@@ -57,7 +61,6 @@ public:
 
 	Trajet (const char* Nom, const char* Ville_Dep, const char* Ville_Arriv); //Affecte à un trajet un Nom, une ville de départ et une ville d'arrivée
     // Constructeur du trajet:
-
 
 
 	virtual ~Trajet( );

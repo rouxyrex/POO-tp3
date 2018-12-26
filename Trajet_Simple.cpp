@@ -38,6 +38,11 @@ using namespace std;
         return Moyen_Trans;
     }
 
+	void Trajet_Simple::SauvTrajet(ofstream& fic, int& ref) const
+	{
+		fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "\n";
+		++ref;
+	}
 
 
 

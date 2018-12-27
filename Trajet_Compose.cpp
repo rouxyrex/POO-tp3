@@ -41,14 +41,17 @@ using namespace std;
         return ret;
     }
 
-	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref) const
+	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const
 	{
-		fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
-		++ref;
-		
-		for (int i=0; i < number; ++i)
+		if (TypeTraj!=1)
 		{
-			Tab[i]->SauvTrajet(fic,ref);
+			fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
+			++ref;
+		
+			for (int i=0; i < number; ++i)
+			{
+				Tab[i]->SauvTrajet(fic,ref,0);
+			}
 		}
 	}
 //-------------------------------------------- Constructeurs - destructeur

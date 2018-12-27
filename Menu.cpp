@@ -41,8 +41,8 @@ static void mainmenu(Catalogue& cat1)
     cout << "4 - Recherche de trajets (Avancée)" << endl;
 	cout << "5 - Affichage du catalogue courrant" << endl;
 	cout << "6 - Ajouter des trajets predetermines au catalogue (Test)" << endl;
-	cout << "7 - Sauvegarder le catalogue courant"<< endl;
-	cout << "8 - Récupérer les trajets sauvegardé dans un fichier"<< endl;
+	cout << "7 - Sauvegarder des trajets"<< endl;
+	cout << "8 - Récupérer des trajets depuis un fichier"<< endl;
 	cout << "9 - Sortir du catalogue"<< endl;
 
 	char instruct ='0';
@@ -88,7 +88,7 @@ static void mainmenu(Catalogue& cat1)
             cout << "Inserez une nouvelle commande" <<endl;
 		}
         
-        	if(instruct == '4') // recherche avancée des trajets
+        if(instruct == '4') // recherche avancée des trajets
 		{
 		    cout << "Veuillez entrer votre ville de depart"<< endl;
             const char* Depart1;
@@ -119,18 +119,70 @@ static void mainmenu(Catalogue& cat1)
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
-
 	    
-	    if(instruct == '7')
+	    if(instruct == '7') //Sauvegarder des trajets
 		{
-			cat1.SauvCatalogue();
-            cout<<endl;
+			//ouvrir le fichier
+			ofstream fic;
+			fic.open("TrajetsFile.csv");
+
+			cout<< "Choisir le type de trajets vous voulez sauvegarder:" << endl;
+			cout << "1 - Tout" << endl;
+			cout << "2 - Trajets Simples" <<endl;
+			cout << "3 - Trajets Composés" <<endl;
+			char instructSauv ='0';
+			cin >>instructSauv;
+			switch (instructSauv)
+			{
+				case '1':
+					cat1.SauvCatalogue(fic,0);
+					break;
+				case '2':
+					cat1.SauvCatalogue(fic,1);
+					break;
+				case '3':
+					cat1.SauvCatalogue(fic,2);
+					break;
+				default :
+					cout << instructSauv <<" n'est pas une option valable"<<endl;
+			}
+			//fermer le fichier
+            fic.close();
+            
+            cout<<endl; 
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 		
-		if(instruct == '8')
+		if(instruct == '8') //Récupérer des trajets
 		{
-			cat1.RecupCatalogue();
+			//ouvrir le fichier
+			ifstream fic;
+			fic.open("TrajetsFile.csv");
+			
+			cout<< "Choisir le type de trajets vous voulez récupérer:" << endl;
+			cout << "1 - Tout" << endl;
+			cout << "2 - Trajets Simples" <<endl;
+			cout << "3 - Trajets Composés" <<endl;
+			char instructRecup ='0';
+			cin >>instructRecup;
+			switch (instructRecup)
+			{
+				case '1':
+					cat1.RecupCatalogue(fic,0);
+					break;
+				case '2':
+					cat1.RecupCatalogue(fic,1);
+					break;
+				case '3':
+					cat1.RecupCatalogue(fic,2);
+					break;
+				default :
+					cout << instructRecup <<" n'est pas une option valable"<<endl;
+			}
+			//fermer le fichier
+            fic.close();
+            
+            
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}

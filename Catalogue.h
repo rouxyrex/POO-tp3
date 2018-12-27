@@ -46,10 +46,10 @@ public:
 
 	void Afficher();
         //Afficher tous les trajets contenus dans ce catalogue
-	bool RecupCatalogue();
-	//Recupérer des trajets à partir d'un fichier
-	bool SauvCatalogue();
-	//Sauvegarder les trajets courants dans un fichier
+	bool RecupCatalogue(ifstream& fic, int TypeTraj);
+	//Recupérer des trajets du type spécifié à partir d'un fichier
+	bool SauvCatalogue(ofstream& fic, int TypeTraj);
+	//Sauvegarder les trajets du type spécifié dans un fichier
     void test();
     //Une methode pour ajouter quelques trajets automatiquement au catalogue afin de rendre les tests plus facile
 
@@ -75,7 +75,7 @@ protected:
 	// méthode utilisée dans AjoutTrajComp() pour que le trajet composé soit constitué  de trajets simples - automatique
 	void AjoutTrajComp(string token[],ifstream &fic); // ajouter un trajet composé - automatique
 	void AjoutTrajComp(Trajet** Tab,int pos,string token[],ifstream &fic); // ajouter un trajet composé qui est contenu dans un trajet composé - automatique
-	
+	void Sauteligne(int& skip,ifstream &fic); // sauter les nombre de lignes spécifié par skip
 //----------------------------------------------------- Attributs protégés
 
 	Trajet** Tab_trajet; //un tableu qui contient des pointeurs sur tous les trajets contenus dans ce catalogue

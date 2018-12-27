@@ -40,7 +40,7 @@ public:
 
     const char* get_Trans(); // renvoie le moyen de transport du trajet
     
-    void SauvTrajet(ofstream& fic, int& ref) const; //sauvegarde le trajet dans fic à la position ref
+    void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const; //sauvegarde le trajet dans fic à la position ref si TypeTraj =0 ou 2
 
 	
 

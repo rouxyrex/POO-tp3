@@ -217,7 +217,6 @@ using namespace std;
 			ReadLine(thisString,subtoken);
 			if (strcmp((subtoken[5]).c_str(),"0")==0)
 			{
-				cout << "now making simp-2\n" ;
 				AjoutTrajSimp2(Tab,i,subtoken);		
 			} else {
 				AjoutTrajComp(Tab,i,subtoken,fic);	
@@ -496,25 +495,25 @@ using namespace std;
         AddTrajet(TC2);
 
     }
-
-	bool Catalogue::SauvCatalogue() 
+	
+	bool Catalogue::SauvCatalogue(int TypeTraj) //1=simple 2=compose, sinon tout
 	{
 		ofstream fic;
 		fic.open("TrajetsFile.csv");
 
 		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
-		
 		int ref = 0; //compteur pour le nombre de trajets enregistré
+
 		for (int i =0; i < count; ++i)
 		{
-			Tab_trajet[i]->SauvTrajet(fic, ref);
+			Tab_trajet[i]->SauvTrajet(fic, ref, TypeTraj);
 		}
 
 		fic.close();
 		return 1;
 	}
-	
-	bool Catalogue::RecupCatalogue()
+
+	bool Catalogue::RecupCatalogue(int TypeTraj) //1=simple 2=compose, sinon tout
 	{	
 		//variables pour stocker les attributs du trajet
 		string thisString = "";
@@ -531,18 +530,46 @@ using namespace std;
 			return 0;
 		}
 		
-		while (getline(fic, thisString))
+		switch (TypeTraj)
 		{
-			ReadLine(thisString,token);
-			if (strcmp((token[5]).c_str(),"0")==0)
-			{
-				cout << "now making simp\n" ;
-				AjoutTrajSimp(token);			
-			} else {
-				cout << "now making comp\n" ;
-				AjoutTrajComp(token,fic);	
-			} 
-
+			case 1 : 
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							AjoutTrajSimp(token);			
+						} else {
+							//calculer le nombre des lignes à sauter
+							int skip = atoi((token[5]).c_str());
+							for (int i=0; i<skip; ++i)
+							{
+								Sauteligne(skip,fic);	//sauter les lignes en additionnant les sauts supplémentaires (cas des composés de composés)
+							}
+						} 
+				}				
+			case 2 : 
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							//faire rien		
+						} else {
+							AjoutTrajComp(token,fic);	
+						} 
+				}	
+			default :
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							AjoutTrajSimp(token);			
+						} else {
+							AjoutTrajComp(token,fic);	
+						} 
+				}	
 		}
 		cout << "Catalogue récupéré\n";
 		fic.close();
@@ -601,6 +628,15 @@ using namespace std;
 		}
 	}
     
+    void Catalogue::Sauteligne(int& skip,ifstream &fic)
+    {
+		//variables pour stocker les attributs du trajet
+		string thisString = "";
+		string token [6];
+		getline(fic, thisString);
+		skip = skip + atoi((token[5]).c_str());
+	}
+	
     void Catalogue::cherche(int i,const char* a, const char* b)
     {
 

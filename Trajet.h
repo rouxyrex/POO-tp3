@@ -37,7 +37,7 @@ public:
 	const char* get_Depart() const; //renvoie la ville de depart du trajet
 	const char* get_Arrivee() const; //renvoie la ville d'arrivee du trajet
 	const char* get_Nom() const; //renvoie le nom du trajet
-	virtual void SauvTrajet(ofstream& fic, int& ref) const //sauvegarde le trajet dans fic à la position ref
+	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 	{
 	}
 

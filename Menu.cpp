@@ -123,14 +123,52 @@ static void mainmenu(Catalogue& cat1)
 	    
 	    if(instruct == '7')
 		{
-			cat1.SauvCatalogue();
+			cout<< "Choisir le type de trajets vous voulez enregistrer:" << endl;
+			cout << "1 - Tout" << endl;
+			cout << "2 - Trajets Simples" <<endl;
+			cout << "3 - Trajets Composés" <<endl;
+			char instructSauv ='0';
+			cin >>instructSauv;
+			switch (instructSauv)
+			{
+				case '1':
+					cat1.SauvCatalogue(0);
+					break;
+				case '2':
+					cat1.SauvCatalogue(1);
+					break;
+				case '3':
+					cat1.SauvCatalogue(2);
+					break;
+				default :
+					cout << instructSauv <<" n'est pas une option valable"<<endl;
+			}
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 		
 		if(instruct == '8')
 		{
-			cat1.RecupCatalogue();
+			cout<< "Choisir le type de trajets vous voulez récupérer:" << endl;
+			cout << "1 - Tout" << endl;
+			cout << "2 - Trajets Simples" <<endl;
+			cout << "3 - Trajets Composés" <<endl;
+			char instructRecup ='0';
+			cin >>instructRecup;
+			switch (instructRecup)
+			{
+				case '1':
+					cat1.RecupCatalogue(0);
+					break;
+				case '2':
+					cat1.RecupCatalogue(1);
+					break;
+				case '3':
+					cat1.RecupCatalogue(2);
+					break;
+				default :
+					cout << instructRecup <<" n'est pas une option valable"<<endl;
+			}
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}

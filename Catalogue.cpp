@@ -498,7 +498,6 @@ using namespace std;
 	
 	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj) //1=simple 2=compose, sinon tout
 	{
-
 		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
 		int ref = 0; //compteur pour le nombre de trajets enregistré
 
@@ -510,6 +509,19 @@ using namespace std;
 		return 1;
 	}
 
+	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj, int SelecVille, string villes [])  //1=simple 2=compose, sinon tout
+	{
+		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
+		int ref = 0; //compteur pour le nombre de trajets enregistré
+
+		for (int i =0; i < count; ++i)
+		{
+			Tab_trajet[i]->SauvTrajet(fic, ref, TypeTraj, SelecVille, villes);
+		}
+
+		return 1;
+	}
+	
 	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj) //1=simple 2=compose, sinon tout
 	{	
 		//variables pour stocker les attributs du trajet
@@ -562,6 +574,85 @@ using namespace std;
 							AjoutTrajSimp(token);			
 						} else {
 							AjoutTrajComp(token,fic);	
+						} 
+				}	
+		}
+		cout << "Catalogue récupéré\n";
+		return 1;
+	}
+	
+	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj, int SelecVille, string villes []) //1=simple 2=compose, sinon tout
+	{	
+		//variables pour stocker les attributs du trajet
+		string thisString = "";
+		string token [6];
+		
+		
+		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
+		{
+			cout << "Fichier vide/non-existant\n";
+			fic.close();
+			return 0;
+		}
+		
+		switch (TypeTraj)
+		{
+			case 1 : 
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							if (checkVille(token, SelecVille, villes)) AjoutTrajSimp(token);
+						} else {
+							//calculer le nombre des lignes à sauter
+							int skip = atoi((token[5]).c_str());
+							for (int i=0; i<skip; ++i)
+							{
+								Sauteligne(skip,fic);	//sauter les lignes en additionnant les sauts supplémentaires (cas des composés de composés)
+							}
+						} 
+				}				
+			case 2 : 
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							//faire rien		
+						} else {
+							if (checkVille(token, SelecVille, villes)) 
+							{ 
+								AjoutTrajComp(token,fic);
+							} else {
+								//sauter des lignes
+								int skip = atoi((token[5]).c_str());
+								for (int i=0; i<skip; ++i)
+								{
+									Sauteligne(skip,fic);	//sauter les lignes en additionnant les sauts supplémentaires (cas des composés de composés)
+								}
+							}	
+						} 
+				}	
+			default :
+				while (getline(fic, thisString))
+				{
+						ReadLine(thisString,token);
+						if (strcmp((token[5]).c_str(),"0")==0)
+						{
+							if (checkVille(token, SelecVille, villes)) AjoutTrajSimp(token);			
+						} else {
+							if (checkVille(token, SelecVille, villes)) 
+							{
+								AjoutTrajComp(token,fic);	
+							} else {
+								//sauter des lignes
+								int skip = atoi((token[5]).c_str());
+								for (int i=0; i<skip; ++i)
+								{
+									Sauteligne(skip,fic);	//sauter les lignes en additionnant les sauts supplémentaires (cas des composés de composés)
+								}
+							}
 						} 
 				}	
 		}
@@ -726,4 +817,32 @@ using namespace std;
 		free(tab);
 	
     }
-
+	
+	bool Catalogue::checkVille(string token [], int SelecVille, string villes [])
+	{
+		bool condSatisfied = false;
+			//verifier les villes de départ/arrivée
+			if (SelecVille==1)
+			{
+				if (villes[0]==token[2])
+				{
+					condSatisfied = true;
+				}
+			} else if (SelecVille==2)
+			{
+				if (villes[1]==token[3])
+				{
+					condSatisfied = true;
+				}
+			} else if (SelecVille==3)
+			{
+				if (villes[0]==token[2] && villes[1]==token[3])
+				{
+					condSatisfied = true;
+				}
+			} else //if SelecVille==0
+			{
+				condSatisfied = true;
+			}
+			return condSatisfied;
+	}

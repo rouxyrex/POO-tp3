@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <fstream>
+#include <string>
 using namespace std;
 
 //------------------------------------------------------------- Constantes
@@ -37,6 +38,8 @@ public:
 	const char* get_Trans() const; // renvoie le moyen de transport de ce trajet
 	
 	void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const; //sauvegarde le trajet dans fic à la position ref si TypeTraj =0 ou 1
+	
+	void SauvTrajet(ofstream& fic, int& ref, int TypeTraj, int SelecVille, string villes []) const; //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 
 //-------------------------------------------- Constructeurs - destructeur
 	Trajet_Simple ( const Trajet_Simple & unTrajet_Simple );

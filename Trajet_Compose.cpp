@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -51,6 +52,54 @@ using namespace std;
 			for (int i=0; i < number; ++i)
 			{
 				Tab[i]->SauvTrajet(fic,ref,0);
+			}
+		}
+	}
+	
+	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int TypeTraj, int SelecVille, string villes []) const
+	{
+		int condSatisfied = 0;
+		if (TypeTraj!=1)
+		{
+			//verifier les villes de départ/arrivée
+			if (SelecVille==1)
+			{
+				if (strcmp((villes[0]).c_str(),Ville_Depart)==0)
+				{
+					condSatisfied = 1;
+				}
+			} else if (SelecVille==2)
+			{
+				if (strcmp((villes[1]).c_str(),Ville_Arrivee)==0)
+				{
+					condSatisfied = 1;
+				}
+			} else if (SelecVille==3)
+			{
+				cout << "came here" << endl;
+				cout << villes[0] << endl;
+				cout << villes[1] << endl;
+				cout << Ville_Depart << endl;
+				cout << Ville_Arrivee << endl;
+				if ((strcmp((villes[0]).c_str(),Ville_Depart)==0) && (strcmp((villes[1]).c_str(),Ville_Arrivee)==0))
+				{
+					cout << "cond satisfied" << endl;
+					condSatisfied = 1;
+				}
+			} else //if SelecVille==0
+			{
+				condSatisfied = 1;
+			}
+			
+			if (condSatisfied==1)
+			{
+				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
+				++ref;
+			
+				for (int i=0; i < number; ++i)
+				{
+					Tab[i]->SauvTrajet(fic,ref,0,0,villes);
+				}
 			}
 		}
 	}

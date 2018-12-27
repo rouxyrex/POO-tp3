@@ -12,6 +12,8 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
+#include <cstring>
+#include <stdlib.h>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -44,6 +46,43 @@ using namespace std;
 		{
 			fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "\n";
 			++ref;
+		}
+	}
+	
+	void Trajet_Simple::SauvTrajet(ofstream& fic, int& ref, int TypeTraj, int SelecVille, string villes []) const
+	{
+		int condSatisfied = 0;
+		if (TypeTraj!=2)
+		{
+			//verifier les villes de départ/arrivée
+			if (SelecVille==1)
+			{
+				if (strcmp((villes[0]).c_str(),Ville_Depart)==0)
+				{
+					condSatisfied = 1;
+				}
+			} else if (SelecVille==2)
+			{
+				if (strcmp((villes[1]).c_str(),Ville_Arrivee)==0)
+				{
+					condSatisfied = 1;
+				}
+			} else if (SelecVille==3)
+			{
+				if ((strcmp((villes[0]).c_str(),Ville_Depart)==0) && (strcmp((villes[1]).c_str(),Ville_Arrivee)==0))
+				{
+					condSatisfied = 1;
+				}
+			} else //if SelecVille==0
+			{
+				condSatisfied = 1;
+			}
+			
+			if (condSatisfied==1)
+			{
+				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "\n";
+				++ref;
+			}
 		}
 	}
 

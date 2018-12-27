@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include <fstream>
+#include <string>
 using namespace std;
 
 //------------------------------------------------------------- Constantes
@@ -38,6 +39,9 @@ public:
 	const char* get_Arrivee() const; //renvoie la ville d'arrivee du trajet
 	const char* get_Nom() const; //renvoie le nom du trajet
 	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
+	{
+	}
+	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj,int SelecVille, string villes []) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 	{
 	}
 

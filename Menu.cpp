@@ -13,6 +13,7 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <cstring>
+#include <string.h>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -130,21 +131,105 @@ static void mainmenu(Catalogue& cat1)
 			cout << "1 - Tout" << endl;
 			cout << "2 - Trajets Simples" <<endl;
 			cout << "3 - Trajets Composés" <<endl;
-			char instructSauv ='0';
-			cin >>instructSauv;
-			switch (instructSauv)
+			char instructSauvTraj ='0';
+			cin >>instructSauvTraj;
+			
+			cout<< "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
+			cout << "1 - Pas de spécification" << endl;
+			cout << "2 - Spécifier la ville de départ" <<endl;
+			cout << "3 - Spécifier la ville d'arrivée" <<endl;
+			cout << "4 - Spécifier la ville de départ et la ville d'arrivée" <<endl;
+			char instructSauvVille ='0';
+			cin >>instructSauvVille;
+			
+			string villes [2];
+			villes[0]="";
+			villes[1]="";
+			
+			cin.ignore(); //necessaire quand on passe d'un "cin <<" à un getline(cin,)
+			if (instructSauvVille=='2' || instructSauvVille=='4')
 			{
-				case '1':
-					cat1.SauvCatalogue(fic,0);
+				cout << "Veuillez taper la ville de départ : ";
+				getline(cin,villes[0]);
+			}
+			if (instructSauvVille=='3' || instructSauvVille=='4')
+			{
+				cout << "Veuillez taper la ville d'arrivée : ";
+				getline(cin,villes[1]);
+			}
+			switch (instructSauvTraj)
+			{
+				case '1': //all traj
+					switch (instructSauvVille)
+					{
+						case '1':
+							//all villes
+							cat1.SauvCatalogue(fic,0,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.SauvCatalogue(fic,0,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.SauvCatalogue(fic,0,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.SauvCatalogue(fic,0,3,villes);
+							break;
+						default :
+							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
-				case '2':
-					cat1.SauvCatalogue(fic,1);
+				case '2': //traj simple
+					switch (instructSauvVille)
+					{
+						case '1':
+							//all villes
+							cat1.SauvCatalogue(fic,1,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.SauvCatalogue(fic,1,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.SauvCatalogue(fic,1,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.SauvCatalogue(fic,1,3,villes);
+							break;
+						default :
+							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
-				case '3':
-					cat1.SauvCatalogue(fic,2);
+				case '3': //traj composé
+					switch (instructSauvVille)
+					{
+						case '1':
+							//all villes
+							cat1.SauvCatalogue(fic,2,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.SauvCatalogue(fic,2,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.SauvCatalogue(fic,2,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.SauvCatalogue(fic,2,3,villes);
+							break;
+						default :
+							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
 				default :
-					cout << instructSauv <<" n'est pas une option valable"<<endl;
+					cout << instructSauvTraj <<" n'est pas une option valable pour la séléction du type de trajets"<<endl;
 			}
 			//fermer le fichier
             fic.close();
@@ -163,21 +248,105 @@ static void mainmenu(Catalogue& cat1)
 			cout << "1 - Tout" << endl;
 			cout << "2 - Trajets Simples" <<endl;
 			cout << "3 - Trajets Composés" <<endl;
-			char instructRecup ='0';
-			cin >>instructRecup;
-			switch (instructRecup)
+			char instructRecupTraj ='0';
+			cin >>instructRecupTraj;
+			
+			cout<< "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
+			cout << "1 - Pas de spécification" << endl;
+			cout << "2 - Spécifier la ville de départ" <<endl;
+			cout << "3 - Spécifier la ville d'arrivée" <<endl;
+			cout << "4 - Spécifier la ville de départ et la ville d'arrivée" <<endl;
+			char instructRecupVille ='0';
+			cin >>instructRecupVille;
+			
+			string villes [2];
+			villes[0]="";
+			villes[1]="";
+			
+			cin.ignore(); //necessaire quand on passe d'un "cin <<" à un getline(cin,)
+			if (instructRecupVille=='2' || instructRecupVille=='4')
 			{
-				case '1':
-					cat1.RecupCatalogue(fic,0);
+				cout << "Veuillez taper la ville de départ : ";
+				getline(cin,villes[0]);
+			}
+			if (instructRecupVille=='3' || instructRecupVille=='4')
+			{
+				cout << "Veuillez taper la ville d'arrivée : ";
+				getline(cin,villes[1]);
+			}
+			switch (instructRecupTraj)
+			{
+				case '1': //all traj
+					switch (instructRecupVille)
+					{
+						case '1':
+							//all villes
+							cat1.RecupCatalogue(fic,0,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.RecupCatalogue(fic,0,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.RecupCatalogue(fic,0,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.RecupCatalogue(fic,0,3,villes);
+							break;
+						default :
+							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
-				case '2':
-					cat1.RecupCatalogue(fic,1);
+				case '2': //traj simple
+					switch (instructRecupVille)
+					{
+						case '1':
+							//all villes
+							cat1.RecupCatalogue(fic,1,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.RecupCatalogue(fic,1,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.RecupCatalogue(fic,1,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.RecupCatalogue(fic,1,3,villes);
+							break;
+						default :
+							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
-				case '3':
-					cat1.RecupCatalogue(fic,2);
+				case '3': //traj composé
+					switch (instructRecupVille)
+					{
+						case '1':
+							//all villes
+							cat1.RecupCatalogue(fic,2,0,villes);
+							break;
+						case '2':
+							//specific ville de depart
+							cat1.RecupCatalogue(fic,2,1,villes);
+							break;
+						case '3':
+							//specific ville d'arrivée
+							cat1.RecupCatalogue(fic,2,2,villes);
+							break;
+						case '4':
+							//specific ville de depart et d'arrivée
+							cat1.RecupCatalogue(fic,2,3,villes);
+							break;
+						default :
+							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
+					}
 					break;
 				default :
-					cout << instructRecup <<" n'est pas une option valable"<<endl;
+					cout << instructRecupTraj <<" n'est pas une option valable pour la séléction du type de trajets"<<endl;
 			}
 			//fermer le fichier
             fic.close();

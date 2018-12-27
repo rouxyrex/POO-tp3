@@ -496,10 +496,8 @@ using namespace std;
 
     }
 	
-	bool Catalogue::SauvCatalogue(int TypeTraj) //1=simple 2=compose, sinon tout
+	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj) //1=simple 2=compose, sinon tout
 	{
-		ofstream fic;
-		fic.open("TrajetsFile.csv");
 
 		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
 		int ref = 0; //compteur pour le nombre de trajets enregistré
@@ -509,19 +507,15 @@ using namespace std;
 			Tab_trajet[i]->SauvTrajet(fic, ref, TypeTraj);
 		}
 
-		fic.close();
 		return 1;
 	}
 
-	bool Catalogue::RecupCatalogue(int TypeTraj) //1=simple 2=compose, sinon tout
+	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj) //1=simple 2=compose, sinon tout
 	{	
 		//variables pour stocker les attributs du trajet
 		string thisString = "";
 		string token [6];
 		
-		
-		ifstream fic;
-		fic.open("TrajetsFile.csv");
 		
 		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
 		{
@@ -572,7 +566,6 @@ using namespace std;
 				}	
 		}
 		cout << "Catalogue récupéré\n";
-		fic.close();
 		return 1;
 	}
 

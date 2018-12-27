@@ -46,9 +46,9 @@ public:
 
 	void Afficher();
         //Afficher tous les trajets contenus dans ce catalogue
-	bool RecupCatalogue(int TypeTraj);
+	bool RecupCatalogue(ifstream& fic, int TypeTraj);
 	//Recupérer des trajets du type spécifié à partir d'un fichier
-	bool SauvCatalogue(int TypeTraj);
+	bool SauvCatalogue(ofstream& fic, int TypeTraj);
 	//Sauvegarder les trajets du type spécifié dans un fichier
     void test();
     //Une methode pour ajouter quelques trajets automatiquement au catalogue afin de rendre les tests plus facile

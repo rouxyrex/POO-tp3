@@ -41,7 +41,7 @@ public:
 	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 	{
 	}
-	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj,int SelecVille, string villes []) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
+	virtual void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj,int SelecVille, string villes []) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 	{
 	}
 

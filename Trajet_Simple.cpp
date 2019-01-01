@@ -49,7 +49,7 @@ using namespace std;
 		}
 	}
 	
-	void Trajet_Simple::SauvTrajet(ofstream& fic, int& ref, int TypeTraj, int SelecVille, string villes []) const
+	void Trajet_Simple::SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const
 	{
 		int condSatisfied = 0;
 		if (TypeTraj!=2)
@@ -80,7 +80,7 @@ using namespace std;
 			
 			if (condSatisfied==1)
 			{
-				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "\n";
+				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << Moyen_Trans << "," << 0 << "," << memberOf <<  "\n";
 				++ref;
 			}
 		}

@@ -46,14 +46,10 @@ public:
 
 	void Afficher();
 	//Afficher tous les trajets contenus dans ce catalogue
-	bool RecupCatalogue(ifstream& fic, int TypeTraj);
-	//Recupérer des trajets du type spécifié à partir d'un fichier
-	bool RecupCatalogue(ifstream& fic, int TypeTraj, int SelecVille, string villes []);
-	//Recupérer des trajets du type spécifié depuis un fichier avec spécification sur la ville de départ/arrivée
-	bool SauvCatalogue(ofstream& fic, int TypeTraj);
-	//Sauvegarder les trajets du type spécifié dans un fichier
-	bool SauvCatalogue(ofstream& fic, int TypeTraj, int SelecVille, string villes []);
-	//Sauvegarder les trajets du type spécifié dans un fichier avec spécification sur la ville de départ/arrivée
+	bool RecupCatalogue(ifstream& fic, int TypeTraj, int SelecVille, string villes [], int intervalle []);
+	//Recupérer des trajets du type spécifié depuis un fichier avec spécification sur la ville de départ/arrivée et sur un intervalle
+	bool SauvCatalogue(ofstream& fic, int TypeTraj, int SelecVille, string villes [], int intervalle []);
+	//Sauvegarder les trajets du type spécifié dans un fichier avec spécification sur la ville de départ/arrivée et sur un intervalle
     void test();
     //Une methode pour ajouter quelques trajets automatiquement au catalogue afin de rendre les tests plus facile
 
@@ -81,6 +77,7 @@ protected:
 	void AjoutTrajComp(Trajet** Tab,int pos,string token[],ifstream &fic); // ajouter un trajet composé qui est contenu dans un trajet composé - automatique
 	void Sauteligne(int& skip,ifstream &fic); // sauter les nombre de lignes spécifié par skip
 	bool checkVille(string token [], int SelecVille, string villes []); //verifier que le trajet satisfait les critères de séléction de villes
+	bool checkIntervalle(string token [], int intervalle []); //verifier que le trajet satisfait les critères d'intervalle
 //----------------------------------------------------- Attributs protégés
 
 	Trajet** Tab_trajet; //un tableu qui contient des pointeurs sur tous les trajets contenus dans ce catalogue

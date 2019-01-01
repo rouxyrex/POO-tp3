@@ -56,7 +56,7 @@ using namespace std;
 		}
 	}
 	
-	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int TypeTraj, int SelecVille, string villes []) const
+	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const
 	{
 		int condSatisfied = 0;
 		if (TypeTraj!=1)
@@ -93,12 +93,12 @@ using namespace std;
 			
 			if (condSatisfied==1)
 			{
-				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
+				fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "," << memberOf << "\n";
 				++ref;
 			
 				for (int i=0; i < number; ++i)
 				{
-					Tab[i]->SauvTrajet(fic,ref,0,0,villes);
+					Tab[i]->SauvTrajet(fic,ref,memberOf,0,0,villes);
 				}
 			}
 		}

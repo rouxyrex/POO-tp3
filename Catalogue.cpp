@@ -208,7 +208,7 @@ using namespace std;
 		Tab = (Trajet **) malloc(num_Traj*sizeof(Trajet*)); // allocation memoire correspondant aux nombres de trajets simples que nous aurons a ajouter 
 		
 		string thisString = "";
-		string subtoken [6];
+		string subtoken [7];
 		
 		for(int i = 0; i < num_Traj ; i++)
 		{	
@@ -241,7 +241,7 @@ using namespace std;
 		SubTab = (Trajet **) malloc(num_Traj*sizeof(Trajet*)); // allocation memoire correspondant aux nombres de trajets simples que nous aurons a ajouter 
 		
 		string thisString = "";
-		string subtoken [6];
+		string subtoken [7];
 		
 		for(int i = 0; i < num_Traj ; i++)
 		{	
@@ -269,7 +269,7 @@ using namespace std;
             int nombre = 0;
             Trajet** Contains = (Trajet**)malloc(100*sizeof(Trajet*)); //possibilite de reallouer de la memoire si necessaire
             Tab_trajet[i]->Renvoyer(nombre,Contains); // modifira Contains afin qu'il contienne le(s) pointeur(s) sur les trajets simples contenus le trajet courrant du catalogue
-            cout << (i+1) << " : "<< Tab_trajet[i]->get_Nom() << " =";
+            cout << (i) << " : "<< Tab_trajet[i]->get_Nom() << " =";
             for (int j=0; j < nombre; j++)
             {
                 if (j==(nombre-1))
@@ -496,37 +496,44 @@ using namespace std;
 
     }
 	
-	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj) //1=simple 2=compose, sinon tout
+	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj, int SelecVille, string villes [], int intervalle [])
 	{
-		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
+		fic << "Ref,Nom,Départ,Arrivée,Trans,Count,MemberOf\n";
 		int ref = 0; //compteur pour le nombre de trajets enregistré
-
-		for (int i =0; i < count; ++i)
+		
+		//si intervalle[0] = 0 pas d'intervalle précisé, sinon un intervalle est précisé : n=intervalle[1], m=intervalle[2]
+		//attention! n <= m forcement. Il faudra implementer ça dans le menu
+		//mais pour l'instant pour éviter des erreurs:
+		if (intervalle[0]!=0 && (intervalle[1]>intervalle[2])) intervalle[0]=0;
+		
+		
+		if (intervalle[0]==0)
 		{
-			Tab_trajet[i]->SauvTrajet(fic, ref, TypeTraj);
+			//pas d'intervalle
+			for (int i =0; i < count; ++i)
+			{
+				Tab_trajet[i]->SauvTrajet(fic, ref, i, TypeTraj, SelecVille, villes);
+			}
+		} else {
+			//intervalle précisé
+			int counter =0;
+			for (int i =0; i < count; ++i)
+			{
+				if (i>=intervalle[1] && i<=intervalle[2])
+				{
+					Tab_trajet[i]->SauvTrajet(fic, ref, counter, TypeTraj, SelecVille, villes);
+					++counter;
+				}
+			}
 		}
-
-		return 1;
-	}
-
-	bool Catalogue::SauvCatalogue(ofstream& fic, int TypeTraj, int SelecVille, string villes [])  //1=simple 2=compose, sinon tout
-	{
-		fic << "Ref,Nom,Départ,Arrivée,Trans,Count\n";
-		int ref = 0; //compteur pour le nombre de trajets enregistré
-
-		for (int i =0; i < count; ++i)
-		{
-			Tab_trajet[i]->SauvTrajet(fic, ref, TypeTraj, SelecVille, villes);
-		}
-
 		return 1;
 	}
 	
-	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj) //1=simple 2=compose, sinon tout
+	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj, int SelecVille, string villes [], int intervalle [])
 	{	
 		//variables pour stocker les attributs du trajet
 		string thisString = "";
-		string token [6];
+		string token [7];
 		
 		
 		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
@@ -544,7 +551,7 @@ using namespace std;
 						ReadLine(thisString,token);
 						if (strcmp((token[5]).c_str(),"0")==0)
 						{
-							AjoutTrajSimp(token);			
+							if (checkVille(token, SelecVille, villes) && checkIntervalle(token, intervalle)) AjoutTrajSimp(token);
 						} else {
 							//calculer le nombre des lignes à sauter
 							int skip = atoi((token[5]).c_str());
@@ -562,66 +569,7 @@ using namespace std;
 						{
 							//faire rien		
 						} else {
-							AjoutTrajComp(token,fic);	
-						} 
-				}	
-			default :
-				while (getline(fic, thisString))
-				{
-						ReadLine(thisString,token);
-						if (strcmp((token[5]).c_str(),"0")==0)
-						{
-							AjoutTrajSimp(token);			
-						} else {
-							AjoutTrajComp(token,fic);	
-						} 
-				}	
-		}
-		cout << "Catalogue récupéré\n";
-		return 1;
-	}
-	
-	bool Catalogue::RecupCatalogue(ifstream& fic,int TypeTraj, int SelecVille, string villes []) //1=simple 2=compose, sinon tout
-	{	
-		//variables pour stocker les attributs du trajet
-		string thisString = "";
-		string token [6];
-		
-		
-		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
-		{
-			cout << "Fichier vide/non-existant\n";
-			fic.close();
-			return 0;
-		}
-		
-		switch (TypeTraj)
-		{
-			case 1 : 
-				while (getline(fic, thisString))
-				{
-						ReadLine(thisString,token);
-						if (strcmp((token[5]).c_str(),"0")==0)
-						{
-							if (checkVille(token, SelecVille, villes)) AjoutTrajSimp(token);
-						} else {
-							//calculer le nombre des lignes à sauter
-							int skip = atoi((token[5]).c_str());
-							for (int i=0; i<skip; ++i)
-							{
-								Sauteligne(skip,fic);	//sauter les lignes en additionnant les sauts supplémentaires (cas des composés de composés)
-							}
-						} 
-				}				
-			case 2 : 
-				while (getline(fic, thisString))
-				{
-						ReadLine(thisString,token);
-						if (strcmp((token[5]).c_str(),"0")==0)
-						{
-							//faire rien		
-						} else {
-							if (checkVille(token, SelecVille, villes)) 
+							if (checkVille(token, SelecVille, villes) && checkIntervalle(token, intervalle)) 
 							{ 
 								AjoutTrajComp(token,fic);
 							} else {
@@ -640,9 +588,9 @@ using namespace std;
 						ReadLine(thisString,token);
 						if (strcmp((token[5]).c_str(),"0")==0)
 						{
-							if (checkVille(token, SelecVille, villes)) AjoutTrajSimp(token);			
+							if (checkVille(token, SelecVille, villes) && checkIntervalle(token, intervalle)) AjoutTrajSimp(token);			
 						} else {
-							if (checkVille(token, SelecVille, villes)) 
+							if (checkVille(token, SelecVille, villes) && checkIntervalle(token, intervalle)) 
 							{
 								AjoutTrajComp(token,fic);	
 							} else {
@@ -704,7 +652,7 @@ using namespace std;
 	{
 		string delimiter = ",";
 		size_t pos = 0;
-		for (int i=0; i<6; ++i)
+		for (int i=0; i<7; ++i)
 		{
 			pos = thisString.find(delimiter);
 			token[i] = thisString.substr(0, pos);
@@ -845,4 +793,14 @@ using namespace std;
 				condSatisfied = true;
 			}
 			return condSatisfied;
+	}
+	
+	bool Catalogue::checkIntervalle(string token [], int intervalle [])
+	{
+		
+		if (intervalle[0]==0) return true;
+		
+		if (atoi(token[6].c_str())>=intervalle[1] && atoi(token[6].c_str())<=intervalle[2]) return true;
+		
+		return false;
 	}

@@ -42,8 +42,10 @@ static void mainmenu(Catalogue& cat1)
     cout << "4 - Recherche de trajets (Avancée)" << endl;
 	cout << "5 - Affichage du catalogue courrant" << endl;
 	cout << "6 - Ajouter des trajets predetermines au catalogue (Test)" << endl;
-	cout << "7 - Sauvegarder des trajets"<< endl;
-	cout << "8 - Récupérer des trajets depuis un fichier"<< endl;
+	cout << "7 - Sauvegarder des trajets dans un fichier (séléction par ville et/ou type)"<< endl;
+	cout << "S - Sauvegarder des trajets dans un fichier (séléction par intervalle)"<< endl;
+	cout << "8 - Récupérer des trajets depuis un fichier (séléction par ville et/ou type)"<< endl;
+	cout << "R - Récupérer des trajets depuis un fichier (séléction par intervalle)"<< endl;
 	cout << "9 - Sortir du catalogue"<< endl;
 
 	char instruct ='0';
@@ -126,15 +128,17 @@ static void mainmenu(Catalogue& cat1)
 			//ouvrir le fichier
 			ofstream fic;
 			fic.open("TrajetsFile.csv");
+			
+			int intervalle [] = {0,0,0};
 
-			cout<< "Choisir le type de trajets vous voulez sauvegarder:" << endl;
+			cout << "Choisir le type de trajets vous voulez sauvegarder:" << endl;
 			cout << "1 - Tout" << endl;
 			cout << "2 - Trajets Simples" <<endl;
 			cout << "3 - Trajets Composés" <<endl;
 			char instructSauvTraj ='0';
 			cin >>instructSauvTraj;
 			
-			cout<< "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
+			cout << "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
 			cout << "1 - Pas de spécification" << endl;
 			cout << "2 - Spécifier la ville de départ" <<endl;
 			cout << "3 - Spécifier la ville d'arrivée" <<endl;
@@ -159,24 +163,24 @@ static void mainmenu(Catalogue& cat1)
 			}
 			switch (instructSauvTraj)
 			{
-				case '1': //all traj
+				case '1': //tout trajets
 					switch (instructSauvVille)
 					{
 						case '1':
 							//all villes
-							cat1.SauvCatalogue(fic,0,0,villes);
+							cat1.SauvCatalogue(fic,0,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.SauvCatalogue(fic,0,1,villes);
+							cat1.SauvCatalogue(fic,0,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.SauvCatalogue(fic,0,2,villes);
+							cat1.SauvCatalogue(fic,0,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.SauvCatalogue(fic,0,3,villes);
+							cat1.SauvCatalogue(fic,0,3,villes,intervalle);
 							break;
 						default :
 							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -187,19 +191,19 @@ static void mainmenu(Catalogue& cat1)
 					{
 						case '1':
 							//all villes
-							cat1.SauvCatalogue(fic,1,0,villes);
+							cat1.SauvCatalogue(fic,1,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.SauvCatalogue(fic,1,1,villes);
+							cat1.SauvCatalogue(fic,1,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.SauvCatalogue(fic,1,2,villes);
+							cat1.SauvCatalogue(fic,1,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.SauvCatalogue(fic,1,3,villes);
+							cat1.SauvCatalogue(fic,1,3,villes,intervalle);
 							break;
 						default :
 							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -210,19 +214,19 @@ static void mainmenu(Catalogue& cat1)
 					{
 						case '1':
 							//all villes
-							cat1.SauvCatalogue(fic,2,0,villes);
+							cat1.SauvCatalogue(fic,2,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.SauvCatalogue(fic,2,1,villes);
+							cat1.SauvCatalogue(fic,2,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.SauvCatalogue(fic,2,2,villes);
+							cat1.SauvCatalogue(fic,2,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.SauvCatalogue(fic,2,3,villes);
+							cat1.SauvCatalogue(fic,2,3,villes,intervalle);
 							break;
 						default :
 							cout << instructSauvVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -238,11 +242,49 @@ static void mainmenu(Catalogue& cat1)
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 		
+		if(instruct == 'S') // sauvegarder des trajets par intevalle
+		{
+			//ouvrir le fichier
+			ofstream fic;
+			fic.open("TrajetsFile.csv");
+			
+			string villes [2];
+			villes[0]="";
+			villes[1]="";
+			cout << "Voulez-vous specifier un intervalle de trajets à sauvegarder ?" << endl;
+			cout << "1 - Oui" << endl;
+			cout << "2 - Non" <<endl;
+			char instructIntervalle ='0';
+			int instructIntervalleN =0; //pas une bonne idée d'utiliser des int pour des cin
+			int instructIntervalleM =0;
+			cin >>instructIntervalle;
+            cout<<endl;
+            
+            if (instructIntervalle=='1')
+            {
+				cout << "Veuillez taper la borne de comencement (trouve le mot!!) : ";
+				cin >>instructIntervalleN;
+				cout<<endl;
+				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
+				cin >>instructIntervalleM;
+				cout<<endl;
+				int intervalle []= {1,instructIntervalleN,instructIntervalleM};
+				cat1.SauvCatalogue(fic,0,0,villes,intervalle);
+			} else {
+				int intervalle []= {0,instructIntervalleN,instructIntervalleM};
+				cat1.SauvCatalogue(fic,0,0,villes,intervalle);
+			}
+			fic.close();
+			cout << "Inserez une nouvelle commande" <<endl;
+		}
+		
 		if(instruct == '8') //Récupérer des trajets
 		{
 			//ouvrir le fichier
 			ifstream fic;
 			fic.open("TrajetsFile.csv");
+			
+			int intervalle [] = {0,0,0};
 			
 			cout<< "Choisir le type de trajets vous voulez récupérer:" << endl;
 			cout << "1 - Tout" << endl;
@@ -276,24 +318,24 @@ static void mainmenu(Catalogue& cat1)
 			}
 			switch (instructRecupTraj)
 			{
-				case '1': //all traj
+				case '1': //tout trajets
 					switch (instructRecupVille)
 					{
 						case '1':
 							//all villes
-							cat1.RecupCatalogue(fic,0,0,villes);
+							cat1.RecupCatalogue(fic,0,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.RecupCatalogue(fic,0,1,villes);
+							cat1.RecupCatalogue(fic,0,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.RecupCatalogue(fic,0,2,villes);
+							cat1.RecupCatalogue(fic,0,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.RecupCatalogue(fic,0,3,villes);
+							cat1.RecupCatalogue(fic,0,3,villes,intervalle);
 							break;
 						default :
 							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -304,19 +346,19 @@ static void mainmenu(Catalogue& cat1)
 					{
 						case '1':
 							//all villes
-							cat1.RecupCatalogue(fic,1,0,villes);
+							cat1.RecupCatalogue(fic,1,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.RecupCatalogue(fic,1,1,villes);
+							cat1.RecupCatalogue(fic,1,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.RecupCatalogue(fic,1,2,villes);
+							cat1.RecupCatalogue(fic,1,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.RecupCatalogue(fic,1,3,villes);
+							cat1.RecupCatalogue(fic,1,3,villes,intervalle);
 							break;
 						default :
 							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -327,19 +369,19 @@ static void mainmenu(Catalogue& cat1)
 					{
 						case '1':
 							//all villes
-							cat1.RecupCatalogue(fic,2,0,villes);
+							cat1.RecupCatalogue(fic,2,0,villes,intervalle);
 							break;
 						case '2':
 							//specific ville de depart
-							cat1.RecupCatalogue(fic,2,1,villes);
+							cat1.RecupCatalogue(fic,2,1,villes,intervalle);
 							break;
 						case '3':
 							//specific ville d'arrivée
-							cat1.RecupCatalogue(fic,2,2,villes);
+							cat1.RecupCatalogue(fic,2,2,villes,intervalle);
 							break;
 						case '4':
 							//specific ville de depart et d'arrivée
-							cat1.RecupCatalogue(fic,2,3,villes);
+							cat1.RecupCatalogue(fic,2,3,villes,intervalle);
 							break;
 						default :
 							cout << instructRecupVille <<" n'est pas une option valable pour la sélection de ville"<<endl;
@@ -355,8 +397,44 @@ static void mainmenu(Catalogue& cat1)
             cout<<endl;
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
+		
+		if(instruct == 'R') // récupérer des trajets par intevalle
+		{
+			//ouvrir le fichier
+			ifstream fic;
+			fic.open("TrajetsFile.csv");
+			
+			string villes [2];
+			villes[0]="";
+			villes[1]="";
+			cout << "Voulez-vous specifier un intervalle de trajets à récupérer ?" << endl;
+			cout << "1 - Oui" << endl;
+			cout << "2 - Non" <<endl;
+			char instructIntervalle ='0';
+			int instructIntervalleN =0; //pas une bonne idée d'utiliser des int pour des cin
+			int instructIntervalleM =0;
+			cin >>instructIntervalle;
+            cout<<endl;
+            
+            if (instructIntervalle=='1')
+            {
+				cout << "Veuillez taper la borne de comencement (trouve le mot!!) : ";
+				cin >>instructIntervalleN;
+				cout<<endl;
+				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
+				cin >>instructIntervalleM;
+				cout<<endl;
+				int intervalle []= {1,instructIntervalleN,instructIntervalleM};
+				cat1.RecupCatalogue(fic,0,0,villes,intervalle);
+			} else {
+				int intervalle []= {0,instructIntervalleN,instructIntervalleM};
+				cat1.RecupCatalogue(fic,0,0,villes,intervalle);
+			}
+			fic.close();
+			cout << "Inserez une nouvelle commande" <<endl;
+		}
 
-	    	cin >> instruct; // enregistrer la nouvelle instruction	
+	    cin >> instruct; // enregistrer la nouvelle instruction	
 
 	    }
 	

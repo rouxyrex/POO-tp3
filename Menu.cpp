@@ -51,6 +51,7 @@ static void mainmenu(Catalogue& cat1)
 	char instruct ='0';
 	
 	cin >>instruct;
+	cin.ignore();
 
 	while(instruct!= '9')
 	{
@@ -77,12 +78,12 @@ static void mainmenu(Catalogue& cat1)
 		   	cout << "Veuillez entrer votre ville de depart"<< endl;
             const char* Depart1;
             const char* Arrivee1;
-            char* Departtmp = new char [4];
-            char* Arriveetmp = new char [4];
-		    cin >> Departtmp;
+            char* Departtmp = new char [20];
+            char* Arriveetmp = new char [20];
+            scanf ("%[^\n]%*c",Departtmp);
             Depart1=Departtmp;
 		    cout << "Veuillez entrer votre ville d'arrivee"<< endl;
-		    cin >> Arriveetmp;
+		    scanf ("%[^\n]%*c",Arriveetmp);
            	Arrivee1=Arriveetmp;
 		    cat1.Rechercher(Depart1,Arrivee1);
 		    delete [] Depart1;	
@@ -96,12 +97,12 @@ static void mainmenu(Catalogue& cat1)
 		    cout << "Veuillez entrer votre ville de depart"<< endl;
             const char* Depart1;
 			const char* Arrivee1;
-			char* Departtmp = new char [4];
-			char* Arriveetmp = new char [4];
-		    cin >> Departtmp;
+			char* Departtmp = new char [20];
+			char* Arriveetmp = new char [20];
+            scanf ("%[^\n]%*c",Departtmp);
            	Depart1=Departtmp;
 		    cout << "Veuillez entrer votre ville d'arrivee"<< endl;
-		    cin >> Arriveetmp;
+		    scanf ("%[^\n]%*c",Arriveetmp);
             Arrivee1=Arriveetmp;
 		    cat1.Rechercher2(Depart1,Arrivee1);
 		    delete [] Depart1;	
@@ -123,7 +124,7 @@ static void mainmenu(Catalogue& cat1)
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 	    
-	    if(instruct == '7') //Sauvegarder des trajets
+	    if(instruct == '7') // sauvegarder des trajets
 		{
 			//ouvrir le fichier
 			ofstream fic;
@@ -136,7 +137,15 @@ static void mainmenu(Catalogue& cat1)
 			cout << "2 - Trajets Simples" <<endl;
 			cout << "3 - Trajets Composés" <<endl;
 			char instructSauvTraj ='0';
+			
 			cin >>instructSauvTraj;
+			while(instructSauvTraj!='1' && instructSauvTraj!='2' && instructSauvTraj!='3') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructSauvTraj;
+			}
 			
 			cout << "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
 			cout << "1 - Pas de spécification" << endl;
@@ -144,7 +153,15 @@ static void mainmenu(Catalogue& cat1)
 			cout << "3 - Spécifier la ville d'arrivée" <<endl;
 			cout << "4 - Spécifier la ville de départ et la ville d'arrivée" <<endl;
 			char instructSauvVille ='0';
+			
 			cin >>instructSauvVille;
+			while(instructSauvVille!='1' && instructSauvVille!='2' && instructSauvVille!='3'&& instructSauvVille!='4') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructSauvVille;
+			}
 			
 			string villes [2];
 			villes[0]="";
@@ -257,16 +274,40 @@ static void mainmenu(Catalogue& cat1)
 			char instructIntervalle ='0';
 			int instructIntervalleN =0; //pas une bonne idée d'utiliser des int pour des cin
 			int instructIntervalleM =0;
+			
 			cin >>instructIntervalle;
+            
+            while(instructIntervalle!='1' && instructIntervalle!='2') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructIntervalle;
+			}
             cout<<endl;
             
             if (instructIntervalle=='1')
             {
-				cout << "Veuillez taper la borne de comencement (trouve le mot!!) : ";
-				cin >>instructIntervalleN;
+				cout << "Veuillez taper la borne de commencement (trouve le mot!!) : ";
+				cin >> instructIntervalleN;
+				while(cin.fail()) {
+					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
+					cout << "Veuillez réessayer" << endl;
+					cin.clear();
+					cin.ignore(256,'\n');
+					cin >> instructIntervalleN;
+				}
 				cout<<endl;
 				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
-				cin >>instructIntervalleM;
+				cin >> instructIntervalleM;
+				while(cin.fail()) {
+					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
+					cout << "Veuillez réessayer" << endl;
+					cin.clear();
+					cin.ignore(256,'\n');
+					cin >> instructIntervalleM;
+				}
+				cout<<instructIntervalleN<< "  "<< instructIntervalleM;
 				cout<<endl;
 				int intervalle []= {1,instructIntervalleN,instructIntervalleM};
 				cat1.SauvCatalogue(fic,0,0,villes,intervalle);
@@ -278,7 +319,7 @@ static void mainmenu(Catalogue& cat1)
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
 		
-		if(instruct == '8') //Récupérer des trajets
+		if(instruct == '8') // récupérer des trajets
 		{
 			//ouvrir le fichier
 			ifstream fic;
@@ -291,7 +332,15 @@ static void mainmenu(Catalogue& cat1)
 			cout << "2 - Trajets Simples" <<endl;
 			cout << "3 - Trajets Composés" <<endl;
 			char instructRecupTraj ='0';
+			
 			cin >>instructRecupTraj;
+			while(instructRecupTraj!='1' && instructRecupTraj!='2' && instructRecupTraj!='3') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructRecupTraj;
+			}
 			
 			cout<< "Voulez-vous specifier la ville d'arrivée et/ou la ville de départ?" << endl;
 			cout << "1 - Pas de spécification" << endl;
@@ -299,7 +348,15 @@ static void mainmenu(Catalogue& cat1)
 			cout << "3 - Spécifier la ville d'arrivée" <<endl;
 			cout << "4 - Spécifier la ville de départ et la ville d'arrivée" <<endl;
 			char instructRecupVille ='0';
+			
 			cin >>instructRecupVille;
+			while(instructRecupVille!='1' && instructRecupVille!='2' && instructRecupVille!='3'&& instructRecupVille!='4') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructRecupVille;
+			}
 			
 			string villes [2];
 			villes[0]="";
@@ -408,21 +465,45 @@ static void mainmenu(Catalogue& cat1)
 			villes[0]="";
 			villes[1]="";
 			cout << "Voulez-vous specifier un intervalle de trajets à récupérer ?" << endl;
-			cout << "1 - Oui" << endl;
+			cout << "1 - Oui" <<endl;
 			cout << "2 - Non" <<endl;
 			char instructIntervalle ='0';
 			int instructIntervalleN =0; //pas une bonne idée d'utiliser des int pour des cin
 			int instructIntervalleM =0;
+			
+			
 			cin >>instructIntervalle;
-            cout<<endl;
+            
+            while(instructIntervalle!='1' && instructIntervalle!='2') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructIntervalle;
+			}
+			cout<<endl;
             
             if (instructIntervalle=='1')
             {
 				cout << "Veuillez taper la borne de comencement (trouve le mot!!) : ";
-				cin >>instructIntervalleN;
+				cin >> instructIntervalleN;
+				while(cin.fail()) {
+					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
+					cout << "Veuillez réessayer" << endl;
+					cin.clear();
+					cin.ignore(256,'\n');
+					cin >> instructIntervalleN;
+				}
 				cout<<endl;
 				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
-				cin >>instructIntervalleM;
+				cin >> instructIntervalleM;
+				while(cin.fail()) {
+					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
+					cout << "Veuillez réessayer" << endl;
+					cin.clear();
+					cin.ignore(256,'\n');
+					cin >> instructIntervalleM;
+				}
 				cout<<endl;
 				int intervalle []= {1,instructIntervalleN,instructIntervalleM};
 				cat1.RecupCatalogue(fic,0,0,villes,intervalle);
@@ -433,8 +514,10 @@ static void mainmenu(Catalogue& cat1)
 			fic.close();
 			cout << "Inserez une nouvelle commande" <<endl;
 		}
-
-	    cin >> instruct; // enregistrer la nouvelle instruction	
+		
+		cin>>instruct;
+	    // enregistrer la nouvelle instruction	
+	    cin.ignore();
 
 	    }
 	

@@ -40,22 +40,23 @@ using namespace std;
 
 		// variables transitoires dont on se servira afin de stocker les informations
 		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
-        char* Nomtmp = new char [4]; 
-        char* Departtmp = new char [4];
-        char* Arriveetmp = new char [4];
-        char* Transtmp = new char [4];
-
+        char* Nomtmp = new char [20]; 
+        char* Departtmp = new char [20];
+        char* Arriveetmp = new char [20];
+        char* Transtmp = new char [20];
+        
+		
 		cout<<"Veuillez inserer le nom de ce trajet s'il vous plait "<< endl;
-	    cin >> Nomtmp;
+		scanf ("%[^\n]%*c",Nomtmp);
 
 	    cout<<"Veuillez inserer la ville de depart de ce trajet s'il vous plait "<< endl;	
-	    cin >> Departtmp;
+	    scanf("%[^\n]%*c",Departtmp);
 	
 	   	cout<<"Veuillez inserer la ville d'arrivee de ce trajet s'il vous plait "<< endl;
-	   	cin >> Arriveetmp;
+	   	scanf("%[^\n]%*c",Arriveetmp);
 	
 	   	cout<<"Veuillez inserer le moyen de transport de ce trajet s'il vous plait "<< endl;
-	    cin >> Transtmp;
+	    scanf("%[^\n]%*c",Transtmp);
 
 		Nom1=Nomtmp;        
 		Depart1=Departtmp;
@@ -77,10 +78,10 @@ using namespace std;
 
 		// variables transitoires dont on se servira afin de stocker les informations
 		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
-        char* Nomtmp = new char [4]; 
-        char* Departtmp = new char [4];
-        char* Arriveetmp = new char [4];
-        char* Transtmp = new char [4];
+        char* Nomtmp = new char [20]; 
+        char* Departtmp = new char [20];
+        char* Arriveetmp = new char [20];
+        char* Transtmp = new char [20];
 
 	    strcpy(Nomtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
 	    strcpy(Departtmp,(token[2]).c_str());
@@ -109,27 +110,27 @@ using namespace std;
 
 		// variables transitoires dont on se servira afin de stocker les informations 
 		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
-        	char* Departtmp = new char [4];
-		char* Arriveetmp = new char [4];
-		char* Transtmp = new char [4];
+        char* Departtmp = new char [20];
+        char* Arriveetmp = new char [20];
+        char* Transtmp = new char [20];
     
 
-        char* Nomtmp = new char [4]; //Nom n'est pas important dans ce cas
-        strcpy(Nomtmp,"TK1");
+        char* Nomtmp = new char [20]; //Nom n'est pas important dans ce cas
+        strcpy(Nomtmp,"NA");
 
         if (pos==0)
         {
 		    cout<<"Veuillez inserer la ville de depart de ce trajet s'il vous plait "<< endl;	
-		    cin >> Departtmp;
+	    scanf("%[^\n]%*c",Departtmp);
         } else {
             strcpy(Departtmp,Tab[pos-1]->get_Arrivee());
         }
 		
 		cout<<"Veuillez inserer la ville d'arrivee de ce trajet s'il vous plait "<< endl;
-		cin >> Arriveetmp;
+	   	scanf("%[^\n]%*c",Arriveetmp);
 
 		cout<<"Veuillez inserer le moyen de transport de ce trajet s'il vous plait "<< endl;
-		cin >> Transtmp;
+	    scanf("%[^\n]%*c",Transtmp);
 	     
         Nom1=Nomtmp;
         Depart1=Departtmp;
@@ -150,10 +151,10 @@ using namespace std;
 
 		// variables transitoires dont on se servira afin de stocker les informations
 		// elles sont nécessaire puisqu'on ne peut pas insérer une valeure dans un const char * en utilisant un cin
-        char* Nomtmp = new char [4]; 
-        char* Departtmp = new char [4];
-        char* Arriveetmp = new char [4];
-        char* Transtmp = new char [4];
+        char* Nomtmp = new char [20]; 
+        char* Departtmp = new char [20];
+        char* Arriveetmp = new char [20];
+        char* Transtmp = new char [20];
 
 	    strcpy(Nomtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
 	    strcpy(Departtmp,(token[2]).c_str());
@@ -172,15 +173,23 @@ using namespace std;
 	
 	void Catalogue::AjoutTrajComp()
     {
-		cout << "Veuillez inserer le nom de ce trajet compose s'il vous plait"<< endl;
 		const char* NomC1;
-		char* NomCtmp = new char [4];
-		cin >> NomCtmp;
+		char* NomCtmp = new char [20];
+		cout << "Veuillez inserer le nom de ce trajet compose s'il vous plait"<< endl;
+		scanf ("%[^\n]%*c",NomCtmp);
 		NomC1=NomCtmp;
             
 		cout<<"Veuillez inserer le nombre de trajets simples que vous voudriez ajouter a ce trajet compose s'il vous plait "<< endl;
-		int num_Traj;
+		int num_Traj=0;
 		cin >> num_Traj;
+		while(cin.fail()) {
+        cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
+        cout << "Veuillez réessayer" << endl;
+        cin.clear();
+        cin.ignore(256,'\n');
+        cin >> num_Traj;
+		}
+		cin.ignore();
 			
 		Trajet ** Tab;
 		Tab = (Trajet **) malloc(num_Traj*sizeof(Trajet*)); // allocation memoire correspondant aux nombres de trajets simples que nous aurons a ajouter 
@@ -198,7 +207,7 @@ using namespace std;
 	void Catalogue::AjoutTrajComp(string token[],ifstream &fic)
     {
 		const char* NomC1;
-		char* NomCtmp = new char [4];
+		char* NomCtmp = new char [20];
 	    strcpy(NomCtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
 		NomC1=NomCtmp;
             
@@ -219,8 +228,7 @@ using namespace std;
 			{
 				AjoutTrajSimp2(Tab,i,subtoken);		
 			} else {
-				AjoutTrajComp(Tab,i,subtoken,fic);	
-				cout << "now making comp-2\n" ;
+				AjoutTrajComp(Tab,i,subtoken,fic);
 			} 		
 		}
 		Trajet* TrajC1;
@@ -231,7 +239,7 @@ using namespace std;
 	void Catalogue::AjoutTrajComp(Trajet** Tab,int pos,string token[],ifstream &fic)
 	{
 		const char* NomC1;
-		char* NomCtmp = new char [4];
+		char* NomCtmp = new char [20];
 	    strcpy(NomCtmp,(token[1]).c_str()); //c_str() pour transformer string en char *
 		NomC1=NomCtmp;
             
@@ -250,11 +258,9 @@ using namespace std;
 			ReadLine(thisString,subtoken);
 			if (strcmp((subtoken[5]).c_str(),"0")==0)
 			{
-				cout << "now making simp-2\n" ;
 				AjoutTrajSimp2(SubTab,i,subtoken);		
 			} else {
-				AjoutTrajComp(SubTab,i,subtoken,fic);	
-				cout << "now making comp-2\n" ;
+				AjoutTrajComp(SubTab,i,subtoken,fic);
 			} 		
 		}
 		Trajet* TrajC1;
@@ -502,10 +508,6 @@ using namespace std;
 		int ref = 0; //compteur pour le nombre de trajets enregistré
 		
 		//si intervalle[0] = 0 pas d'intervalle précisé, sinon un intervalle est précisé : n=intervalle[1], m=intervalle[2]
-		//attention! n <= m forcement. Il faudra implementer ça dans le menu
-		//mais pour l'instant pour éviter des erreurs:
-		if (intervalle[0]!=0 && (intervalle[1]>intervalle[2])) intervalle[0]=0;
-		
 		
 		if (intervalle[0]==0)
 		{
@@ -526,6 +528,7 @@ using namespace std;
 				}
 			}
 		}
+		cout << "Catalogue sauvegardé\n";
 		return 1;
 	}
 	

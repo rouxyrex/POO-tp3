@@ -24,56 +24,127 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
+int main ()
+{
+	Catalogue cat1; // creation du catalogue
+	Menu menu1; //création du menu	
+	menu1.mainmenu(cat1);
+	return 0;
+}
 
-void test(Catalogue& cat1)
+//-------------------------------------------- Constructeurs - destructeur
+	Menu::Menu () 
+	{
+	    #ifdef MAP
+	        cout << "Appel au constructeur de <Menu>" << endl;
+	    #endif
+	} //----- Fin de Menu
+
+	Menu::~Menu ( )
+	{
+        
+	    #ifdef MAP
+	        cout << "Appel au destructeur de <Menu>" << endl;
+	    #endif
+	} //----- Fin de ~Menu
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+void Menu::test(Catalogue& cat1)
 {
     cat1.test();
 }
 
-static void mainmenu(Catalogue& cat1)
+bool Menu::openfileread(ifstream &fic)
 {
+	string path = "";
+	cout << "Veuillez inserer l'addresse du fichier à utiliser : ";
+	getline(cin,path);
 	
+	fic.open(path.c_str());
+	while (!fic)
+	{
+		cout << "Impossible d'utiliser ce fichier. Veuillez réessayer : ";
+		getline(cin,path);
+		fic.open(path.c_str());
+	}
+	return true;
+}
 
-	//partie interactive de la modelisation
+bool Menu::openfilewrite(ofstream &fic)
+{
+	string path = "";
+	cout << "Veuillez inserer l'addresse du fichier à utiliser : ";
+	getline(cin,path);
+	
+	fic.open(path.c_str());
+	while (!fic)
+	{
+		cout << "Impossible d'utiliser ce fichier. Veuillez réessayer : ";
+		getline(cin,path);
+		fic.open(path.c_str());
+	}
+	return true;
+}
+
+void Menu::displayoptions()
+{
+	cout << endl << endl << endl;
 	cout<< "Voici les differentes touches et leur fonction dans ce catalogue:" << endl;
 	cout << "1 - Ajouter un nouveau trajet simple" << endl;
-	cout << "2 - Ajouter un nouveau trajet compose" <<endl;
-	cout << "3 - Recherche de trajets" <<endl;	
-    cout << "4 - Recherche de trajets (Avancée)" << endl;
-	cout << "5 - Affichage du catalogue courrant" << endl;
-	cout << "6 - Ajouter des trajets predetermines au catalogue (Test)" << endl;
-	cout << "7 - Sauvegarder des trajets dans un fichier (séléction par ville et/ou type)"<< endl;
-	cout << "S - Sauvegarder des trajets dans un fichier (séléction par intervalle)"<< endl;
-	cout << "8 - Récupérer des trajets depuis un fichier (séléction par ville et/ou type)"<< endl;
-	cout << "R - Récupérer des trajets depuis un fichier (séléction par intervalle)"<< endl;
-	cout << "9 - Sortir du catalogue"<< endl;
+	cout << "2 - Ajouter un nouveau trajet composé" <<endl;
+	cout << "3 - Recherche de trajets (simple et avancée)" <<endl;
+	cout << "4 - Affichage du catalogue courrant" << endl;
+	cout << "5 - Sauvegarder des trajets dans un fichier (séléction par ville et/ou type)"<< endl;
+	cout << "6 - Sauvegarder des trajets dans un fichier (séléction par intervalle)"<< endl;
+	cout << "7 - Récupérer des trajets depuis un fichier (séléction par ville et/ou type)"<< endl;
+	cout << "8 - Récupérer des trajets depuis un fichier (séléction par intervalle)"<< endl;
+	cout << "9 - Réafficher les options"<< endl;
+	cout << "X - Sortir du catalogue"<< endl;
+	cout << endl << endl << endl;
+}
 
-	char instruct ='0';
+
+void Menu::mainmenu(Catalogue& cat1)
+{
+	//partie interactive de la modelisation
 	
+	displayoptions();
+	cout << "Veuillez séléctionner une option : " << endl;
+	
+	char instruct ='0';
 	cin >>instruct;
+	while(instruct!='1' && instruct!='2' && instruct!='3' && instruct!='4' && instruct!='5' && instruct!='6' && instruct!='7' && instruct!='8' && instruct!='9' && instruct!='X' && instruct!='T') {
+		cout << "Erreur, ceci n'est pas une option valable" << endl;
+		cout << "Veuillez réessayer : " << endl;
+		cin.clear();
+		cin.ignore(256,'\n');
+		cin >> instruct;
+	}
 	cin.ignore();
+	
+	
 
-	while(instruct!= '9')
+	while(instruct!= 'X')
 	{
 		
 		if(instruct == '1') // ajout d'un nouveau trajet simple au catalogue
 		{	
             cat1.AjoutTrajSimp();
-			cout << "Trajet enregistre dans le catalogue "<< endl;
-			cout<<endl;
-			cout << "Inserez une nouvelle commande" <<endl;	
+			cout << endl << "Trajet enregistré dans le catalogue "<< endl;
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 					
 		}
 
 		if(instruct == '2') // ajout d'un nouveau trajet composé au catalogue
 		{	
 			cat1.AjoutTrajComp();
-			cout << "Trajet compose enregistre dans le catalogue "<< endl;
-			cout<<endl;
-			cout << "Inserez une nouvelle commande" <<endl;			
+			cout << endl << "Trajet compose enregistré dans le catalogue "<< endl;
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;		
 		}
-
-		if(instruct == '3') // recherche standard des trajets
+		
+		if(instruct == '3') // rechercher (simple et avancée)
 		{
 		   	cout << "Veuillez entrer votre ville de depart"<< endl;
             const char* Depart1;
@@ -85,50 +156,55 @@ static void mainmenu(Catalogue& cat1)
 		    cout << "Veuillez entrer votre ville d'arrivee"<< endl;
 		    scanf ("%[^\n]%*c",Arriveetmp);
            	Arrivee1=Arriveetmp;
-		    cat1.Rechercher(Depart1,Arrivee1);
+           	
+			cout<< "Quel type de recherche voulez-vous utiliser :" << endl;
+			cout << "1 - Recherche Simple" << endl;
+			cout << "2 - Recherche Avancée" <<endl;
+			
+			char instructRecherche ='0';
+			cin >>instructRecherche;
+			while(instructRecherche!='1' && instructRecherche!='2') {
+				cout << "Erreur, ceci n'est pas une option valable" << endl;
+				cout << "Veuillez réessayer" << endl;
+				cin.clear();
+				cin.ignore(256,'\n');
+				cin >> instructRecherche;
+			}
+			
+			if (instructRecherche=='1') 
+			{
+				cat1.Rechercher(Depart1,Arrivee1);
+			} else {
+				cat1.Rechercher2(Depart1,Arrivee1);
+			}
 		    delete [] Depart1;	
             delete [] Arrivee1;
 			cout<<endl;
-            cout << "Inserez une nouvelle commande" <<endl;
-		}
-        
-        if(instruct == '4') // recherche avancée des trajets
-		{
-		    cout << "Veuillez entrer votre ville de depart"<< endl;
-            const char* Depart1;
-			const char* Arrivee1;
-			char* Departtmp = new char [20];
-			char* Arriveetmp = new char [20];
-            scanf ("%[^\n]%*c",Departtmp);
-           	Depart1=Departtmp;
-		    cout << "Veuillez entrer votre ville d'arrivee"<< endl;
-		    scanf ("%[^\n]%*c",Arriveetmp);
-            Arrivee1=Arriveetmp;
-		    cat1.Rechercher2(Depart1,Arrivee1);
-		    delete [] Depart1;	
-            delete [] Arrivee1;
-            cout << "Inserez une nouvelle commande" <<endl;
-		}
+			
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
+		}      
 
-		if(instruct == '5') // Affichage des trajets courrants
+		if(instruct == '4') // Affichage des trajets courrants
 		{
 			cat1.Afficher();
 			cout<<endl;
-			cout << "Inserez une nouvelle commande" <<endl;
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 
-		if(instruct == '6') // test
+		if(instruct == 'T') // test
 		{
 			test(cat1);
+			cout<<"Trajets test bien ajoutés au catalogue"<<endl;
             cout<<endl;
-			cout << "Inserez une nouvelle commande" <<endl;
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 	    
-	    if(instruct == '7') // sauvegarder des trajets
+	    if(instruct == '5') // sauvegarder des trajets
 		{
 			//ouvrir le fichier
 			ofstream fic;
-			fic.open("TrajetsFile.csv");
+			//fic.open("TrajetsFile.csv");
+			openfilewrite(fic);
 			
 			int intervalle [] = {0,0,0};
 
@@ -255,11 +331,12 @@ static void mainmenu(Catalogue& cat1)
 			//fermer le fichier
             fic.close();
             
-            cout<<endl; 
-			cout << "Inserez une nouvelle commande" <<endl;
+            cout<<endl;
+            cout << "Le catalogue a bien été sauvegardé" <<endl;	 
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 		
-		if(instruct == 'S') // sauvegarder des trajets par intevalle
+		if(instruct == '6') // sauvegarder des trajets par intevalle
 		{
 			//ouvrir le fichier
 			ofstream fic;
@@ -288,7 +365,7 @@ static void mainmenu(Catalogue& cat1)
             
             if (instructIntervalle=='1')
             {
-				cout << "Veuillez taper la borne de commencement (trouve le mot!!) : ";
+				cout << "Veuillez insérer la borne inférieure : ";
 				cin >> instructIntervalleN;
 				while(cin.fail()) {
 					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
@@ -298,7 +375,7 @@ static void mainmenu(Catalogue& cat1)
 					cin >> instructIntervalleN;
 				}
 				cout<<endl;
-				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
+				cout << "Veuillez insérer la borne supérieure : ";
 				cin >> instructIntervalleM;
 				while(cin.fail()) {
 					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
@@ -316,14 +393,17 @@ static void mainmenu(Catalogue& cat1)
 				cat1.SauvCatalogue(fic,0,0,villes,intervalle);
 			}
 			fic.close();
-			cout << "Inserez une nouvelle commande" <<endl;
+			cout << endl;
+            cout << "Le catalogue a bien été sauvegardé" <<endl;	 
+			cout << "Veuillez insérer une nouvelle commande : " <<endl;	
 		}
 		
-		if(instruct == '8') // récupérer des trajets
+		if(instruct == '7') // récupérer des trajets
 		{
 			//ouvrir le fichier
 			ifstream fic;
-			fic.open("TrajetsFile.csv");
+			//fic.open("TrajetsFile.csv");
+			openfileread(fic);
 			
 			int intervalle [] = {0,0,0};
 			
@@ -449,13 +529,13 @@ static void mainmenu(Catalogue& cat1)
 			}
 			//fermer le fichier
             fic.close();
-            
-            
-            cout<<endl;
-			cout << "Inserez une nouvelle commande" <<endl;
+                
+			cout << endl;
+            cout << "Le catalogue a bien été récupéré" <<endl;	 
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 		
-		if(instruct == 'R') // récupérer des trajets par intevalle
+		if(instruct == '8') // récupérer des trajets par intevalle
 		{
 			//ouvrir le fichier
 			ifstream fic;
@@ -512,9 +592,18 @@ static void mainmenu(Catalogue& cat1)
 				cat1.RecupCatalogue(fic,0,0,villes,intervalle);
 			}
 			fic.close();
-			cout << "Inserez une nouvelle commande" <<endl;
+			
+			cout << endl;
+            cout << "Le catalogue a bien été récupéré" <<endl;	 
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 		
+		if(instruct == '9') // réafficher les options
+		{
+			displayoptions();
+			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
+			
+		}
 		cin>>instruct;
 	    // enregistrer la nouvelle instruction	
 	    cin.ignore();
@@ -522,15 +611,3 @@ static void mainmenu(Catalogue& cat1)
 	    }
 	
 }
-
-int main ()
-{
-	Catalogue cat1; // creation du catalogue	
-	mainmenu(cat1);
-	return 0;
-}
-
-//------------------------------------------------------------------ PRIVE
-
-//----------------------------------------------------- Méthodes protégées
-

@@ -203,7 +203,6 @@ void Menu::mainmenu(Catalogue& cat1)
 		{
 			//ouvrir le fichier
 			ofstream fic;
-			//fic.open("TrajetsFile.csv");
 			openfilewrite(fic);
 			
 			int intervalle [] = {0,0,0};
@@ -340,7 +339,7 @@ void Menu::mainmenu(Catalogue& cat1)
 		{
 			//ouvrir le fichier
 			ofstream fic;
-			fic.open("TrajetsFile.csv");
+			openfilewrite(fic);
 			
 			string villes [2];
 			villes[0]="";
@@ -402,7 +401,6 @@ void Menu::mainmenu(Catalogue& cat1)
 		{
 			//ouvrir le fichier
 			ifstream fic;
-			//fic.open("TrajetsFile.csv");
 			openfileread(fic);
 			
 			int intervalle [] = {0,0,0};
@@ -529,9 +527,7 @@ void Menu::mainmenu(Catalogue& cat1)
 			}
 			//fermer le fichier
             fic.close();
-                
 			cout << endl;
-            cout << "Le catalogue a bien été récupéré" <<endl;	 
 			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 		
@@ -539,7 +535,7 @@ void Menu::mainmenu(Catalogue& cat1)
 		{
 			//ouvrir le fichier
 			ifstream fic;
-			fic.open("TrajetsFile.csv");
+			openfileread(fic);
 			
 			string villes [2];
 			villes[0]="";
@@ -565,7 +561,7 @@ void Menu::mainmenu(Catalogue& cat1)
             
             if (instructIntervalle=='1')
             {
-				cout << "Veuillez taper la borne de comencement (trouve le mot!!) : ";
+				cout << "Veuillez insérer la borne inférieure : ";
 				cin >> instructIntervalleN;
 				while(cin.fail()) {
 					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
@@ -575,7 +571,7 @@ void Menu::mainmenu(Catalogue& cat1)
 					cin >> instructIntervalleN;
 				}
 				cout<<endl;
-				cout << "Veuillez taper la borne de finition (trouve le mot!!) : ";
+				cout << "Veuillez insérer la borne supérieure : ";
 				cin >> instructIntervalleM;
 				while(cin.fail()) {
 					cout << "Erreur, l'entrée n'est probablement pas un entier" << endl;
@@ -594,7 +590,6 @@ void Menu::mainmenu(Catalogue& cat1)
 			fic.close();
 			
 			cout << endl;
-            cout << "Le catalogue a bien été récupéré" <<endl;	 
 			cout << "Veuillez inserer une nouvelle commande : " <<endl;	
 		}
 		

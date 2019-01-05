@@ -538,10 +538,21 @@ using namespace std;
 		string thisString = "";
 		string token [7];
 		
+		string entete="Ref,Nom,Départ,Arrivée,Trans,Count,MemberOf";
+
+		
+
 		
 		if (!getline(fic, thisString)) //verifier que le fichier n'est pas vide
 		{
 			cout << "Fichier vide/non-existant\n";
+			fic.close();
+			return 0;
+		}
+		
+		if(thisString!=entete) //verifier que la première ligne est l'en-tête
+		{
+			cout << "Fichier n'est pas du bon format\n";
 			fic.close();
 			return 0;
 		}
@@ -607,7 +618,8 @@ using namespace std;
 						} 
 				}	
 		}
-		cout << "Catalogue récupéré\n";
+		cout << endl;
+        cout << "Le catalogue a bien été récupéré" <<endl;	
 		return 1;
 	}
 

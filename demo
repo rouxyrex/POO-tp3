@@ -1,0 +1,6 @@
+Ref,Nom,Départ,Arrivée,Trans,Count,MemberOf
+0,TS1,Lyon,Bordeaux,Train,0,0
+1,TC2,Lyon,Paris,NA,2,1
+2,NA,Lyon,Marseille,Bateau,0,1
+3,NA,Marseille,Paris,Avion,0,1
+4,TS3,Lyon,Paris,Auto,0,2

@@ -10,7 +10,7 @@ EXEC=main
 SRC=$(wildcard *.cpp)
 OBJECTS=$(SRC:.cpp=.o)
 
-PHONY: target clean
+PHONY: target
 
 target:$(EXEC)
 

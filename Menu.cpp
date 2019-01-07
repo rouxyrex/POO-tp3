@@ -56,10 +56,26 @@ void Menu::test(Catalogue& cat1)
     cat1.test();
 }
 
+bool Menu::isfileempty(string path)
+{	
+	ifstream ficTest;
+	ficTest.open(path.c_str()); //ouvre le fichier en lecture pour tester s'il existe
+	if (ficTest)
+	{
+		int c = 0;
+		c = ficTest.peek();
+		if (c != EOF) //teste si le fichier est vide
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 bool Menu::openfileread(ifstream &fic)
 {
 	string path = "";
-	cout << "Veuillez inserer l'addresse du fichier à utiliser : ";
+	cout << "Veuillez inserer l'adresse du fichier à utiliser : ";
 	getline(cin,path);
 	
 	fic.open(path.c_str());
@@ -75,9 +91,27 @@ bool Menu::openfileread(ifstream &fic)
 bool Menu::openfilewrite(ofstream &fic)
 {
 	string path = "";
-	cout << "Veuillez inserer l'addresse du fichier à utiliser : ";
+	string ans = "";
+	bool flag_writeok;
+
+	cout << "Veuillez inserer l'adresse du fichier à utiliser : ";
 	getline(cin,path);
 	
+	flag_writeok = isfileempty(path);
+	while (!flag_writeok)
+	{
+		cout << "Ce fichier n'est pas vide, etes-vous sur de vouloir l'ecraser? Appuyez sur ENTER pour confirmer ou entrez une nouvelle adresse : " ;
+		getline(cin, ans);
+		if (ans == "")
+		{
+			flag_writeok = true;
+		}
+		else
+		{
+			flag_writeok = isfileempty(ans);
+		}
+	}
+
 	fic.open(path.c_str());
 	while (!fic)
 	{
@@ -95,7 +129,7 @@ void Menu::displayoptions()
 	cout << "1 - Ajouter un nouveau trajet simple" << endl;
 	cout << "2 - Ajouter un nouveau trajet composé" <<endl;
 	cout << "3 - Recherche de trajets (simple et avancée)" <<endl;
-	cout << "4 - Affichage du catalogue courrant" << endl;
+	cout << "4 - Affichage du catalogue courant" << endl;
 	cout << "5 - Sauvegarder des trajets dans un fichier (séléction par ville et/ou type)"<< endl;
 	cout << "6 - Sauvegarder des trajets dans un fichier (séléction par intervalle)"<< endl;
 	cout << "7 - Récupérer des trajets depuis un fichier (séléction par ville et/ou type)"<< endl;

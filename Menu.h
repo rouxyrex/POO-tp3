@@ -53,6 +53,7 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
+    bool isfileempty(string path); //methode qui teste si le fichier indique par path est vide ou non
     bool openfileread(ifstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'
     bool openfilewrite(ofstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'(ofstream &fic)
     void displayoptions();

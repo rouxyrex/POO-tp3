@@ -2,7 +2,7 @@
                            Trajet_Compose  -  Classe fille
                              -------------------
     début                : 21/11/2018
-    copyright            : (C) 2018 par LOKUGE, RAMSAHA
+    copyright            : (C) 2018 par LOKUGE, RAMSAHA, DEBORD
     e-mail               : sadsitha97@pediatrician.com
 *************************************************************************/
 

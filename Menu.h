@@ -2,7 +2,7 @@
                Interface de la classe <Menu> (fichier Menu.h)
                              -------------------
     début                : 21/11/2018
-    copyright            : (C) 2018 par LOKUGE, RAMSAHA
+    copyright            : (C) 2018 par LOKUGE, RAMSAHA, DEBORD
     e-mail               : sadsitha97@pediatrician.com
 *************************************************************************/
 
@@ -53,6 +53,7 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
+    bool isfileempty(string path); //methode qui teste si le fichier indique par path est vide ou non
     bool openfileread(ifstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'
     bool openfilewrite(ofstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'(ofstream &fic)
     void displayoptions();

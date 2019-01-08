@@ -38,12 +38,10 @@ public:
     void Renvoyer(int& nombre, Trajet** Contains); 
 	// modifie un tableau(Trajet** Contains) afin qu'il contienne les pointers sur tous les trajets simples contenu dans ce trajet composé 
 	// cette méthode servira à la recherche de trajets dans Catalogue  
-
-    const char* get_Trans(); // renvoie le moyen de transport du trajet
-    
-    void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const; //sauvegarde le trajet dans fic à la position ref si TypeTraj =0 ou 2
-
-	void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const; //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
+    const char* get_Trans(); 
+    // renvoie le moyen de transport du trajet
+	void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const; 
+	// sauvegarde le trajet dans fic à la position ref si il corresponds aux critères definis
 	
 
 //-------------------------------------------- Constructeurs - destructeur

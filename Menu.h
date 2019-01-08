@@ -36,7 +36,8 @@ class Menu
 
 public:
 //----------------------------------------------------- Méthodes publiques
-	void mainmenu(Catalogue& cat1); // méthode qui initie l'interface et les différentes options possible
+	void mainmenu(Catalogue& cat1); 
+	// méthode qui initie l'interface et les différentes options possible
 
 
 //----------------------------------------------------- Attributs public
@@ -53,11 +54,16 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-    bool isfileempty(string path); //methode qui teste si le fichier indique par path est vide ou non
-    bool openfileread(ifstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'
-    bool openfilewrite(ofstream &fic); // méthode pour qui va ouvrir un fichir donné par 'path'(ofstream &fic)
-    void displayoptions();
-    void test(Catalogue& cat1); // méthode pour l'insertion du test demandé dans le cahier des charges
+    bool isfileempty(string path); 
+    //methode qui teste si le fichier indique par path est vide ou non
+    bool openfileread(ifstream &fic); 
+    // méthode pour qui va ouvrir un fichir donné par 'path'
+    bool openfilewrite(ofstream &fic); 
+    // méthode pour qui va ouvrir un fichir donné par 'path'(ofstream &fic)
+    void displayoptions(); //
+    // afficher les options disponibles à l'utilisateur sur l'écran
+    void test(Catalogue& cat1); 
+    // méthode pour l'insertion du test demandé dans le cahier des charges
 
 //----------------------------------------------------- Attributs protégés
 

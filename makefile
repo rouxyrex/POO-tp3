@@ -22,4 +22,5 @@ $(EXEC): $(OBJECTS)
 	
 clean:
 	rm -f *.o core
+	rm $(EXEC)
 

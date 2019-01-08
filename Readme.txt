@@ -11,4 +11,4 @@ Il suffit de taper le chiffre correspondant à l'option recherché et appuyer su
 Utiliser l'option 'X' pour quitter le programme
 
 //Debugger
-Utiliser le makefile 'makefile_debug' pour compiler le programme en sorte que les traces des constructeurs et destructeurs sont activés
+Ajouter l'option '-D MAP' à CFLAGS dans le makefile pour compiler le programme en sorte que les traces des constructeurs et destructeurs sont activés

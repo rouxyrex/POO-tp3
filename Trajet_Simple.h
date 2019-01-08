@@ -33,22 +33,21 @@ class Trajet_Simple : public Trajet
 public:
 //----------------------------------------------------- Méthodes publiques
 
-	void Renvoyer(int& nombre, Trajet** Contains); //Renvoie le pointeur sur lui-même qui sevira pour la rechercher de Trajet dans Catalogue
+	void Renvoyer(int& nombre, Trajet** Contains); 
+	// renvoie le pointeur sur lui-même qui sevira pour la rechercher de Trajet dans Catalogue
     
-	const char* get_Trans() const; // renvoie le moyen de transport de ce trajet
+	const char* get_Trans() const; 
+	// renvoie le moyen de transport de ce trajet
 	
-	void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const; //sauvegarde le trajet dans fic à la position ref si TypeTraj =0 ou 1
-	
-	void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const; //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
+	void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const; 
+	// sauvegarde le trajet dans fic à la position ref si il corresponds aux critères definis
 
 //-------------------------------------------- Constructeurs - destructeur
 	Trajet_Simple ( const Trajet_Simple & unTrajet_Simple );
         // Constructeur de copie
 
-
 	Trajet_Simple (const char* Nom, const char* Ville_Dep, const char* Ville_Arriv, const char* Trans);
 	    // Constructeur
-
 
 	virtual ~Trajet_Simple( );
 	    // Destructeur
@@ -61,7 +60,8 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
 
-	const char* Moyen_Trans; // Paramètre pour le moyen de transport
+	const char* Moyen_Trans; 
+	// paramètre pour le moyen de transport
 
 };
 

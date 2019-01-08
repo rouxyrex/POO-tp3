@@ -35,10 +35,14 @@ public:
 //----------------------------------------------------- Méthodes publiques
 
 	
-	const char* get_Depart() const; //renvoie la ville de depart du trajet
-	const char* get_Arrivee() const; //renvoie la ville d'arrivee du trajet
-	const char* get_Nom() const; //renvoie le nom du trajet
-	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
+	const char* get_Depart() const; 
+	//renvoie la ville de depart du trajet
+	const char* get_Arrivee() const; 
+	//renvoie la ville d'arrivee du trajet
+	const char* get_Nom() const; 
+	//renvoie le nom du trajet
+	virtual void SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const 
+	//sauvegarde le trajet dans fic à la position ref si il est du type spécifié
 	{
 	}
 	virtual void SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj,int SelecVille, string villes []) const //sauvegarde le trajet dans fic à la position ref si il est du type spécifié
@@ -55,8 +59,7 @@ public:
 
 
     virtual void Renvoyer(int& nombre, Trajet** Contains) {}; 
-    //renvoie un tableu contenant les pointers des tous les trajets simples contenu dans ce trajet. Cette méthode sera appelée dans les classes filles pour la recherche de trajets
-	
+    // renvoie un tableu contenant les pointers des tous les trajets simples contenu dans ce trajet. Cette méthode sera appelée dans les classes filles pour la recherche de trajets
 
 //-------------------------------------------- Constructeurs - destructeur
     
@@ -77,9 +80,12 @@ protected:
 
 //----------------------------------------------------- Attributs protégés
 
-	const char* Nom_Trajet;	// Attribut de Nom du Trajet
-	const char* Ville_Depart;// Attribut de Ville de Départ du Trajet
-	const char* Ville_Arrivee;// Attribut d'Arrivée du Trajet
+	const char* Nom_Trajet;	
+	// Attribut de Nom du Trajet
+	const char* Ville_Depart;
+	// Attribut de Ville de Départ du Trajet
+	const char* Ville_Arrivee;
+	// Attribut d'Arrivée du Trajet
 
 };
 

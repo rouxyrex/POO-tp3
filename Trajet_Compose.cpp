@@ -42,20 +42,6 @@ using namespace std;
         return ret;
     }
 
-	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int TypeTraj) const
-	{
-		if (TypeTraj!=1)
-		{
-			fic << ref << "," << Nom_Trajet << "," << Ville_Depart << "," << Ville_Arrivee << "," << "NA" << "," << number << "\n";
-			++ref;
-		
-			for (int i=0; i < number; ++i)
-			{
-				Tab[i]->SauvTrajet(fic,ref,0);
-			}
-		}
-	}
-	
 	void Trajet_Compose::SauvTrajet(ofstream& fic, int& ref, int memberOf, int TypeTraj, int SelecVille, string villes []) const
 	{
 		int condSatisfied = 0;
